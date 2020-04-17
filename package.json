@@ -1,0 +1,20 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "mssql": "^6.2.0",
+    "swagger-ui": "^3.25.0",
+    "swagger-ui-dist": "^3.25.0",
+    "swagger-ui-express": "^4.1.4",
+    "tedious": "^8.2.0"
+  }
+}
