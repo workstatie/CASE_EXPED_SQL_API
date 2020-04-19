@@ -18,17 +18,17 @@ app.use('/api/', request);
 const solution = require('./src/routes/Solution');
 app.use('/api/', solution);
 
-// const carrier = require('./src/routes/Carrier');
-// app.use('/api/', carrier);
+const carrier = require('./src/routes/Carrier');
+app.use('/api/', carrier);
 
-// const tracking = require('./src/routes/Tracking');
-// app.use('/api/', tracking);
+const tracking = require('./src/routes/Tracking');
+app.use('/api/', tracking);
 
-// const csat = require('./src/routes/CSAT');
-// app.use('/api/', csat);
+const csat = require('./src/routes/CSAT');
+app.use('/api/', csat);
 
-// const user = require('./src/routes/User');
-// app.use('/api/', user);
+const user = require('./src/routes/User');
+app.use('/api/', user);
 
 // View Engine
 app.use('/', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
