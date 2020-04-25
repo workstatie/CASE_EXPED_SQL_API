@@ -9,7 +9,7 @@ var dbconfig = {
 };
 
 //SQL Querries for Solution table
-tableName = 'Solution'
+const tableName = '[Solution]'
 
 //Get All Solution
 router.get('/GetSolutions', function (req, res, next) {
@@ -38,7 +38,7 @@ router.get('/GetSolutionByID', function (req, res, next) {
             if (err) {
                 console.log(err)
             }
-            res.send(JSON.stringify(recordset));
+            res.send(recordset);
         });
     });
 });

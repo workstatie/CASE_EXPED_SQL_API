@@ -9,7 +9,7 @@ var dbconfig = {
 };
 
 //SQL Querries for REQUEST table
-tableName = 'Request'
+const tableName = '[Request]'
 
 //Get Next Request
 router.get('/GetRequests', function (req, res, next) {
@@ -18,7 +18,7 @@ router.get('/GetRequests', function (req, res, next) {
             console.log(err);
         }
         var request = new sql.Request();
-        request.query('select * from ' + tableName + ' where assigned_user_id=' + req.query.id, function (err, recordset) {
+        request.query('select * from ' + tableName + ' where assigned_user_id=' + req.query.assigned_user_id, function (err, recordset) {
             if (err) {
                 console.log(err)
                 res.status(405);
@@ -80,9 +80,8 @@ router.post('/NewRequest', function (req, res) {
                 request.email_html + "','" +
                 request.assigned_user_id + "','" +
                 request.completed + "','" +
-                request.request_status_type_id + "','" +
-                request.datetime_created + "','" +
-                request.datetime_modified + "',GETDATE(), GETDATE()) ";
+                request.request_status_type_id + "',GETDATE(), GETDATE()) ";
+                console.log(sqlQuery)
             sqlRequest.query(sqlQuery, function (err, recordset) {
                 if (err) {
                     res.status(400)

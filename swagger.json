@@ -5,8 +5,8 @@
     "version": "1.0.0",
     "title": "API to CASE_EXPED "
   },
-  "host": "petstore.swagger.io",
-  "basePath": "/v2",
+  "host": "localhost:3000",
+  "basePath": "/api",
   "tags": [
     {
       "name": "request",

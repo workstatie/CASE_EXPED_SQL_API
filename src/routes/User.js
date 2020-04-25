@@ -9,7 +9,7 @@ var dbconfig = {
 };
 
 //SQL Querries for User table
-tableName = 'User'
+const tableName = '[User]'
 
 //Get User by ID
 router.get('/GetUserInfo', function (req, res, next) {
@@ -22,7 +22,7 @@ router.get('/GetUserInfo', function (req, res, next) {
             if (err) {
                 console.log(err)
             }
-            res.send(JSON.stringify(recordset));
+            res.send(recordset);
         });
     });
 });

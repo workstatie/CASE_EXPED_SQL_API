@@ -9,7 +9,7 @@ var dbconfig = {
 };
 
 //SQL Querries for Carrier table
-tableName = 'Carrier'
+const tableName = '[Carrier]'
 
 //Get All Carriers
 router.get('/GetAllCarriers', function (req, res, next) {
