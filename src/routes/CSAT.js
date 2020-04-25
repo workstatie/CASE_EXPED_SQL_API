@@ -9,7 +9,7 @@ var dbconfig = {
 };
 
 //SQL Querries for CSAT table
-tableName = 'CSAT';
+const tableName = 'CSAT';
 
 //Create new CSAT
 router.post('/AddCSAT', function (req, res) {

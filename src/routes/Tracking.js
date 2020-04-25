@@ -9,7 +9,7 @@ var dbconfig = {
 };
 
 //SQL Querries for Tracking table
-tableName = 'Tracking'
+const tableName = 'Tracking'
 
 //Get GetTrackingInfo by ID
 router.get('/GetTrackingInfo', function (req, res, next) {
