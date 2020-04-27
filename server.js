@@ -3,13 +3,12 @@ var bodyParser = require('body-parser');
 var app = express();
 const swaggerUi = require('swagger-ui-express');
 const swaggerDocument = require('./swagger.json');
-
-
 require('dotenv').config()
-
+startProc= require('./src/robotJs/startProcess');
 app.use(bodyParser.json());
 app.use(bodyParser.json({ limit: '5mb' }));
 app.use(bodyParser.urlencoded({ extended: true }));
+
 
 //Insert here all additional routes
 const request = require('./src/routes/Request');
@@ -39,6 +38,7 @@ app.use('/', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 //open server on port
 app.listen(process.env.PORT, function () {
+    startProc.runApp();
     console.log('Server is running on port %d', process.env.PORT)
 });
 
