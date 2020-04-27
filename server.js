@@ -30,6 +30,9 @@ app.use('/api/', csat);
 const user = require('./src/routes/User');
 app.use('/api/', user);
 
+const systemValues = require('./src/routes/SystemDefaultValues');
+app.use('/api/', systemValues);
+
 // View Engine
 app.use('/', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 

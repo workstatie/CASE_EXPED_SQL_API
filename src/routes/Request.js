@@ -89,7 +89,7 @@ router.post('/NewRequest', function (req, res) {
                     console.log(err)
                 } else {
                     res.status(200)
-                    res.send('inserting data in SQL table ' + tableName);
+                   // res.send('inserting data in SQL table ' + tableName);
                 }
             });
         });
@@ -138,7 +138,7 @@ router.put('/UpdateRequest', function (req, res) {
                     console.log(err)
                 } else {
                     res.status(200)
-                    res.send('inserting data in SQL table ' + tableName);
+                // /    res.send('inserting data in SQL table ' + tableName);
                 }
             });
         });
