@@ -38,7 +38,8 @@ app.use('/', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 //open server on port
 app.listen(process.env.PORT, function () {
-    startProc.runApp();
+    //run Uipath Robot at stratup
+    // startProc.runApp();
     console.log('Server is running on port %d', process.env.PORT)
 });
 

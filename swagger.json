@@ -31,6 +31,10 @@
     {
       "name": "csat",
       "description": ""
+    },
+    {
+      "name": "systemDefaultValues",
+      "description": ""
     }
   ],
   "schemes": [
@@ -449,6 +453,46 @@
               "$ref": "#/definitions/CSAT"
             }
           }
+        ],
+        "responses": {
+          "405": {
+            "description": "Invalid input"
+          }
+        }
+      }
+    },
+    "/GetStatusTypes": {
+      "get": {
+        "tags": [
+          "systemDefaultValues"
+        ],
+        "summary": "Get All Status Types",
+        "description": "",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "405": {
+            "description": "Invalid input"
+          }
+        }
+      }
+    },
+    "/GetAllTruckTypes": {
+      "get": {
+        "tags": [
+          "systemDefaultValues"
+        ],
+        "summary": "Get All Truck Types",
+        "description": "",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
         ],
         "responses": {
           "405": {
