@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 
 //Get GetTrackingInfo by ID
-router.get('/StartRobot', function (req, res, next) {
+router.post('/StartRobot', function (req, res, next) {
   var execFile = require('child_process').execFile, child;
   var args = '';
   if (req.body) {

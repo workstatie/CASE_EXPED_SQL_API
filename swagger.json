@@ -6,7 +6,7 @@
     "title": "API to CASE_EXPED "
   },
   "host": "localhost:3000",
-  "basePath": "/api",
+  "basePath": "/",
   "tags": [
     {
       "name": "request",
@@ -35,13 +35,17 @@
     {
       "name": "systemDefaultValues",
       "description": ""
+    },
+    {
+      "name": "robot",
+      "description": ""
     }
   ],
   "schemes": [
     "http"
   ],
   "paths": {
-    "/GetRequests": {
+    "/api/GetRequests": {
       "get": {
         "tags": [
           "request"
@@ -70,7 +74,7 @@
         }
       }
     },
-    "/GetRequestDetails": {
+    "/api/GetRequestDetails": {
       "get": {
         "tags": [
           "request"
@@ -99,7 +103,7 @@
         }
       }
     },
-    "/NewRequest": {
+    "/api/NewRequest": {
       "post": {
         "tags": [
           "request"
@@ -131,7 +135,7 @@
         }
       }
     },
-    "/UpdateRequest": {
+    "/api/UpdateRequest": {
       "put": {
         "tags": [
           "request"
@@ -170,7 +174,7 @@
         }
       }
     },
-    "/GetSolutions": {
+    "/api/GetSolutions": {
       "get": {
         "tags": [
           "solution"
@@ -190,7 +194,7 @@
         }
       }
     },
-    "/GetSolutionByID": {
+    "/api/GetSolutionByID": {
       "get": {
         "tags": [
           "solution"
@@ -219,7 +223,7 @@
         }
       }
     },
-    "/AddSolution": {
+    "/api/AddSolution": {
       "post": {
         "tags": [
           "solution"
@@ -251,7 +255,7 @@
         }
       }
     },
-    "/GetTrackingInfo": {
+    "/api/GetTrackingInfo": {
       "get": {
         "tags": [
           "tracking"
@@ -280,7 +284,7 @@
         }
       }
     },
-    "/AddTrackingInfo": {
+    "/api/AddTrackingInfo": {
       "post": {
         "tags": [
           "tracking"
@@ -312,7 +316,7 @@
         }
       }
     },
-    "/GetAllCarriers": {
+    "/api/GetAllCarriers": {
       "get": {
         "tags": [
           "carrier"
@@ -332,7 +336,7 @@
         }
       }
     },
-    "/AddCarrier": {
+    "/api/AddCarrier": {
       "post": {
         "tags": [
           "carrier"
@@ -364,7 +368,7 @@
         }
       }
     },
-    "/GetUserInfo": {
+    "/api/GetUserInfo": {
       "get": {
         "tags": [
           "user"
@@ -393,7 +397,7 @@
         }
       }
     },
-    "/LoginUser": {
+    "/api/LoginUser": {
       "get": {
         "tags": [
           "user"
@@ -429,7 +433,7 @@
         }
       }
     },
-    "/AddCSAT": {
+    "/api/AddCSAT": {
       "post": {
         "tags": [
           "csat"
@@ -461,7 +465,7 @@
         }
       }
     },
-    "/GetStatusTypes": {
+    "/api/GetStatusTypes": {
       "get": {
         "tags": [
           "systemDefaultValues"
@@ -481,7 +485,7 @@
         }
       }
     },
-    "/GetAllTruckTypes": {
+    "/api/GetAllTruckTypes": {
       "get": {
         "tags": [
           "systemDefaultValues"
@@ -493,6 +497,44 @@
         ],
         "produces": [
           "application/json"
+        ],
+        "responses": {
+          "405": {
+            "description": "Invalid input"
+          }
+        }
+      }
+    },
+    "/robot/StartRobot": {
+      "post": {
+        "tags": [
+          "robot"
+        ],
+        "summary": "Start a Robot by Process Name",
+        "description": "enter the process name and input values in the body as JSON format",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Request object needed",
+            "required": true,
+            "schema": {
+              "type": "object"
+            }
+          },
+          {
+            "in": "query",
+            "name": "processName",
+            "type": "string",
+            "description": "Process Name",
+            "required": true
+          }
         ],
         "responses": {
           "405": {
