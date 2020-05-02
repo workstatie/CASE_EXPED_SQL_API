@@ -223,6 +223,35 @@
         }
       }
     },
+    "/api/GetSolutionForRequestID": {
+      "get": {
+        "tags": [
+          "solution"
+        ],
+        "summary": "Get Solution for Request ID",
+        "description": "",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "request_id",
+            "type": "string",
+            "description": "Get solution for request id",
+            "required": true
+          }
+        ],
+        "responses": {
+          "405": {
+            "description": "Invalid input"
+          }
+        }
+      }
+    },
     "/api/AddSolution": {
       "post": {
         "tags": [

@@ -43,6 +43,23 @@ router.get('/GetSolutionByID', function (req, res, next) {
     });
 });
 
+//Get Solution by ID
+router.get('/GetSolutionForRequestID', function (req, res, next) {
+    sql.connect(dbconfig, function (err) {
+        if (err) {
+            console.log(err);
+        }
+        var request = new sql.Request();
+        request.query('select * from ' + tableName + ' where request_id=' + req.query.request_id, function (err, recordset) {
+            if (err) {
+                console.log(err)
+            }
+            res.send(recordset);
+        });
+    });
+});
+
+
 //Add a new solution
 router.post('/AddSolution', function (req, res) {
     const request = req.body;
