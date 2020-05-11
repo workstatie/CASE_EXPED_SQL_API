@@ -40,12 +40,12 @@ router.post('/AddCarrier', function (req, res) {
                 console.log(err);
             }
             var sqlRequest = new sql.Request();
-            const sqlQuery = "INSERT INTO "+ tableName +" (name, phone, email, orders_fulfilled, rating, datetime_created, datetime_modified) VALUES ('" +
+            const sqlQuery = "INSERT INTO "+ tableName +" (name, phone, email, orders_fulfilled, rating, datetime_created, datetime_modified) OUTPUT SCOPE_IDENTITY()  VALUES ('" +
                 request.name + "','" +
                 request.phone + "','" +
                 request.email + "','" +
                 request.orders_fulfilled + "','" +
-                request.rating + "',GETDATE(), GETDATE()) ";
+                request.rating + "',GETDATE(), GETDATE()) SELECT SCOPE_IDENTITY() as id";
             sqlRequest.query(sqlQuery, function (err, recordset) {
                 if (err) {
                     res.status(400)
@@ -53,7 +53,7 @@ router.post('/AddCarrier', function (req, res) {
                     console.log(err)
                 } else {
                     res.status(200)
-                    res.send('inserting data in SQL table ' + tableName);
+                    res.send(recordset);
                 }
             });
         });

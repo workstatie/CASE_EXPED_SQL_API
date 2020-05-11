@@ -73,14 +73,14 @@ router.post('/AddSolution', function (req, res) {
                 console.log(err);
             }
             var sqlRequest = new sql.Request();
-            const sqlQuery = "INSERT INTO "+ tableName +" (request_id, price, delay, carrier_id, truck_type_id, details, transit_time, datetime_created, datetime_modified) VALUES ('" +
+            const sqlQuery = "INSERT INTO "+ tableName +" (request_id, price, delay, carrier_id, truck_type_id, details, transit_time, datetime_created, datetime_modified) OUTPUT SCOPE_IDENTITY() VALUES ('" +
                 request.request_id + "','" +
                 request.price + "','" +
                 request.delay + "','" +
                 request.carrier_id + "','" +
                 request.truck_type_id + "','" +
                 request.details + "','" +
-                request.transit_time + "',GETDATE(), GETDATE()) ";
+                request.transit_time + "',GETDATE(), GETDATE()) SELECT SCOPE_IDENTITY() as id ";
             sqlRequest.query(sqlQuery, function (err, recordset) {
                 if (err) {
                     res.status(400)
@@ -88,7 +88,7 @@ router.post('/AddSolution', function (req, res) {
                     console.log(err)
                 } else {
                     res.status(200)
-                    res.send('inserting data in SQL table ' + tableName);
+                    res.send(recordset);
                 }
             });
         });

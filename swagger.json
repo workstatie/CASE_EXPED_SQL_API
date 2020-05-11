@@ -426,6 +426,35 @@
         }
       }
     },
+    "/api/GetUserByEmail": {
+      "get": {
+        "tags": [
+          "user"
+        ],
+        "summary": "Get User by email",
+        "description": "",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "email",
+            "type": "string",
+            "description": "User email",
+            "required": true
+          }
+        ],
+        "responses": {
+          "405": {
+            "description": "Invalid input"
+          }
+        }
+      }
+    },
     "/api/LoginUser": {
       "get": {
         "tags": [
@@ -712,8 +741,7 @@
       "type": "object",
       "properties": {
         "name": {
-          "type": "integer",
-          "format": "int64"
+          "type": "string"
         },
         "phone": {
           "type": "string"

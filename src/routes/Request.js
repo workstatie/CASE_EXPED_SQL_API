@@ -18,13 +18,17 @@ router.get('/GetRequests', function (req, res, next) {
             console.log(err);
         }
         var request = new sql.Request();
-        request.query('select * from ' + tableName + ' where assigned_user_id=' + req.query.assigned_user_id, function (err, recordset) {
+        if(req.query.assigned_user_id==='NULL')
+            queryValue= 'select * from ' + tableName + ' where assigned_user_id is '
+        else 
+            queryValue='select * from ' + tableName + ' where assigned_user_id='
+
+        request.query(queryValue + req.query.assigned_user_id, function (err, recordset) {
             if (err) {
                 console.log(err)
                 res.status(405);
                 res.send(err)
             }
-            // res.send(JSON.stringify(recordset));
             res.send(recordset);
         });
     });
