@@ -64,9 +64,31 @@ router.post('/NewRequest', function (req, res) {
                 console.log(err);
             }
             var sqlRequest = new sql.Request();
-            const sqlQuery = "INSERT INTO "+ tableName +" ( customer_id, from_address_city, from_address_postcode, to_address_city, to_address_postcode, load_datetime, \
+            if( request.assigned_user_id ==='NULL'){
+                 sqlQuery = "INSERT INTO "+ tableName +" ( customer_id, from_address_city, from_address_postcode, to_address_city, to_address_postcode, load_datetime, \
+                    unload_datetime, solution_time, validation_datetime, goods_weight, goods_europallets, truck_type_id, adr_type_id, special_requirments, \
+                    email_html, assigned_user_id, completed, request_status_type_id, datetime_created, datetime_modified) OUTPUT SCOPE_IDENTITY()  VALUES ('" +
+                    request.customer_id + "','" +
+                    request.from_address_city + "','" +
+                    request.from_address_postcode + "','" +
+                    request.to_address_city + "','" +
+                    request.to_address_postcode + "','" +
+                    request.load_datetime + "','" +
+                    request.unload_datetime + "','" +
+                    request.solution_time + "','" +
+                    request.validation_datetime + "','" +
+                    request.goods_weight + "','" +
+                    request.goods_europallets + "','" +
+                    request.truck_type_id + "','" +
+                    request.adr_type_id + "','" +
+                    request.special_requirments + "','" +
+                    request.email_html + "', NULL, '" +
+                    request.completed + "','" +
+                    request.request_status_type_id + "',GETDATE(), GETDATE()) SELECT SCOPE_IDENTITY() as id ";
+            }else{
+             sqlQuery = "INSERT INTO "+ tableName +" ( customer_id, from_address_city, from_address_postcode, to_address_city, to_address_postcode, load_datetime, \
                 unload_datetime, solution_time, validation_datetime, goods_weight, goods_europallets, truck_type_id, adr_type_id, special_requirments, \
-                email_html, assigned_user_id, completed, request_status_type_id, datetime_created, datetime_modified) VALUES ('" +
+                email_html, assigned_user_id, completed, request_status_type_id, datetime_created, datetime_modified) OUTPUT SCOPE_IDENTITY()  VALUES ('" +
                 request.customer_id + "','" +
                 request.from_address_city + "','" +
                 request.from_address_postcode + "','" +
@@ -84,8 +106,9 @@ router.post('/NewRequest', function (req, res) {
                 request.email_html + "','" +
                 request.assigned_user_id + "','" +
                 request.completed + "','" +
-                request.request_status_type_id + "',GETDATE(), GETDATE()) ";
-                console.log(sqlQuery)
+                request.request_status_type_id + "',GETDATE(), GETDATE()) SELECT SCOPE_IDENTITY() as id";
+            } 
+            console.log(sqlQuery)
             sqlRequest.query(sqlQuery, function (err, recordset) {
                 if (err) {
                     res.status(400)
@@ -93,7 +116,7 @@ router.post('/NewRequest', function (req, res) {
                     console.log(err)
                 } else {
                     res.status(200)
-                   // res.send('inserting data in SQL table ' + tableName);
+                    res.send(recordset)
                 }
             });
         });
@@ -142,6 +165,7 @@ router.put('/UpdateRequest', function (req, res) {
                     console.log(err)
                 } else {
                     res.status(200)
+                    res.send('updated')
                 // /    res.send('inserting data in SQL table ' + tableName);
                 }
             });
