@@ -32,6 +32,10 @@ app.use('/api/', user);
 const systemValues = require('./src/routes/SystemDefaultValues');
 app.use('/api/', systemValues);
 
+const customer = require('./src/routes/Customer');
+app.use('/api/', customer);
+
+
 //ROBOT 
 const robotTrigger = require('./src/robotJs/robotTrigger');
 app.use('/robot/', robotTrigger);

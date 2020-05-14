@@ -29,6 +29,10 @@
       "description": ""
     },
     {
+      "name": "customer",
+      "description": ""
+    },
+    {
       "name": "csat",
       "description": ""
     },
@@ -397,6 +401,87 @@
         }
       }
     },
+    "/api/GetAllCustomers": {
+      "get": {
+        "tags": [
+          "customer"
+        ],
+        "summary": "Get All Customer",
+        "description": "",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "405": {
+            "description": "Invalid input"
+          }
+        }
+      }
+    },
+    "/api/GetCustomerByName": {
+      "get": {
+        "tags": [
+          "customer"
+        ],
+        "summary": "Get Customer by Name",
+        "description": "",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "name",
+            "type": "string",
+            "description": "Company Name",
+            "required": true
+          }
+        ],
+        "responses": {
+          "405": {
+            "description": "Invalid input"
+          }
+        }
+      }
+    },
+    "/api/CreateCustomer": {
+      "post": {
+        "tags": [
+          "customer"
+        ],
+        "summary": "Add new carrier",
+        "description": "",
+        "operationId": "createCustomer",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Request object needed",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Customer"
+            }
+          }
+        ],
+        "responses": {
+          "405": {
+            "description": "Invalid input"
+          }
+        }
+      }
+    },
     "/api/GetUserInfo": {
       "get": {
         "tags": [
@@ -753,6 +838,26 @@
           "type": "string"
         },
         "rating": {
+          "type": "string"
+        }
+      },
+      "xml": {
+        "name": "Tracking"
+      }
+    },
+    "Customer": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "crm_id": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "phone": {
           "type": "string"
         }
       },
