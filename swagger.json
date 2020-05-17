@@ -719,6 +719,10 @@
           "type": "string",
           "description": "Origin City Name "
         },
+        "from_address_country": {
+          "type": "string",
+          "description": "Origin City Country "
+        },
         "from_address_postcode": {
           "type": "string",
           "format": "Origin postcode"
@@ -726,6 +730,10 @@
         "to_address_city": {
           "type": "string",
           "description": "Destination City Name "
+        },
+        "to_address_country": {
+          "type": "string",
+          "description": "Origin City Country "
         },
         "to_address_postcode": {
           "type": "string",
@@ -774,10 +782,6 @@
         "assigned_user_id": {
           "type": "string",
           "description": "Truck Type Id"
-        },
-        "completed": {
-          "type": "string",
-          "format": "Address type"
         },
         "request_status_type_id": {
           "type": "string",
