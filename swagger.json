@@ -49,6 +49,26 @@
     "http"
   ],
   "paths": {
+    "/api/GetAllRequests": {
+      "get": {
+        "tags": [
+          "request"
+        ],
+        "summary": "Get All Requests ",
+        "description": "",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "405": {
+            "description": "Invalid input"
+          }
+        }
+      }
+    },
     "/api/GetRequests": {
       "get": {
         "tags": [

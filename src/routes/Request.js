@@ -34,6 +34,24 @@ router.get('/GetRequests', function (req, res, next) {
     });
 });
 
+
+//Get Request by ID
+router.get('/GetAllRequests', function (req, res, next) {
+    sql.connect(dbconfig, function (err) {
+        if (err) {
+            console.log(err);
+        }
+        var request = new sql.Request();
+        request.query('select * from ' + tableName , function (err, recordset) {
+            if (err) {
+                console.log(err)
+            }
+            //    / res.send(JSON.stringify(recordset));
+            res.send(recordset);
+        });
+    });
+});
+
 //Get Request by ID
 router.get('/GetRequestDetails', function (req, res, next) {
     sql.connect(dbconfig, function (err) {
