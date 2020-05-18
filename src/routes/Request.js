@@ -35,6 +35,27 @@ router.get('/GetRequests', function (req, res, next) {
 });
 
 
+//Get Next Request
+router.get('/GetRequestsByStatusId', function (req, res, next) {
+    sql.connect(dbconfig, function (err) {
+        if (err) {
+            console.log(err);
+        }
+        var request = new sql.Request();
+        queryValue = 'select * from ' + tableName + ' where request_status_type_id ='    
+        request.query(queryValue + req.query.request_status_type_id, function (err, recordset) {
+            if (err) {
+                console.log(err)
+                res.status(405);
+                res.send(err)
+            }
+            res.send(recordset);
+        });
+    });
+});
+
+
+
 //Get Request by ID
 router.get('/GetAllRequests', function (req, res, next) {
     sql.connect(dbconfig, function (err) {
