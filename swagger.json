@@ -812,6 +812,14 @@
           "type": "string",
           "description": "Truck Type Id"
         },
+        "request_source": {
+          "type": "string",
+          "description": "Request Source"
+        },
+        "transporeon_id": {
+          "type": "string",
+          "description": "Truck Type Id"
+        },
         "request_status_type_id": {
           "type": "string",
           "description": "Order Status"
