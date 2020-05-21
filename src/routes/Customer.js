@@ -45,6 +45,26 @@ router.get('/GetCustomerByName', function (req, res, next) {
     });
 });
 
+
+//Get Customer by Company Name
+router.get('/GetCustomerByID', function (req, res, next) {
+    sql.connect(dbconfig, function (err) {
+        if (err) {
+            console.log(err);
+        }
+        
+        var request = new sql.Request();
+
+        const sqlQuery="select * from " + tableName + " WHERE id = '" + req.query.id +"'"
+        request.query(sqlQuery, function (err, recordset) {
+            if (err) {
+                console.log(err)
+            }
+            res.send(recordset);
+        });
+    });
+});
+
 //Create new Customer 
 router.post('/CreateCustomer', function (req, res) {
    
