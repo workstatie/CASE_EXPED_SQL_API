@@ -28,7 +28,7 @@ router.get('/GetAllCustomers', function (req, res, next) {
 
 
 //Get Customer by Company Name
-router.get('/GetCustomerByName', function (req, res, next) {
+router.get('/GetCustomerByID', function (req, res, next) {
     sql.connect(dbconfig, function (err) {
         if (err) {
             console.log(err);
@@ -36,7 +36,7 @@ router.get('/GetCustomerByName', function (req, res, next) {
         
         var request = new sql.Request();
 
-        const sqlQuery="select * from [Customer_Contact] WHERE customer_id = '" + req.query.customer_id +"'"
+        const sqlQuery="select * from " +tableName + " WHERE customer_id = '" + req.query.customer_id +"'"
         request.query(sqlQuery, function (err, recordset) {
             if (err) {
                 console.log(err)
