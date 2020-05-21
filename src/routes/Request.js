@@ -62,6 +62,7 @@ router.get('/GetAllRequests', function (req, res, next) {
         if (err) {
             console.log(err);
         }
+        console.log("aioc")
         var request = new sql.Request();
         request.query('select * from ' + tableName, function (err, recordset) {
             if (err) {
@@ -72,6 +73,24 @@ router.get('/GetAllRequests', function (req, res, next) {
         });
     });
 });
+
+router.get('/GetRequestByTransporeonID', function (req, res, next) {
+    sql.connect(dbconfig, function (err) {
+        if (err) {
+            console.log(err);
+        }
+        console.log("aioc")
+        var request = new sql.Request();
+        request.query('select * from ' + tableName + ' where transporeon_id=' + req.query.transporeon_id, function (err, recordset){
+            if (err) {
+                console.log(err)
+            }
+            //    / res.send(JSON.stringify(recordset));
+            res.send(recordset);
+        });
+    });
+});
+
 
 //Get Request by ID
 router.get('/GetRequestDetails', function (req, res, next) {
@@ -93,6 +112,7 @@ router.get('/GetRequestDetails', function (req, res, next) {
 //Create new Request
 router.post('/NewRequest', function (req, res) {
     const request = req.body;
+  
 
     sql.connect(dbconfig, function (err) {
         if (err) {
@@ -105,11 +125,11 @@ router.post('/NewRequest', function (req, res) {
         }
 
         sqlQueryPost = sqlQueryPost + "  datetime_created, datetime_modified)  OUTPUT SCOPE_IDENTITY()  VALUES ( '"
-
         for (var i = 0; i < Object.keys(req.body).length; i++) {
             sqlQueryPost = sqlQueryPost + Object.values(req.body)[i] + "','"
         }
         sqlQueryPost = sqlQueryPost.slice(0, sqlQueryPost.length - 2) + ", GETDATE(), GETDATE()) SELECT SCOPE_IDENTITY() as id";
+        console.log(sqlQueryPost)
 
         var sqlRequest = new sql.Request();
 
@@ -139,6 +159,7 @@ router.put('/UpdateRequest', function (req, res) {
             sqlQueryPut = sqlQueryPut + Object.keys(req.body)[i] + " = '" + Object.values(req.body)[i] + "',"
         }
         sqlQueryPut = sqlQueryPut.slice(0, sqlQueryPut.length - 1) + " WHERE ID = " + req.query.id;
+        console.log(sqlQueryPut)
         var sqlRequest = new sql.Request();
 
         sqlRequest.query(sqlQueryPut, function (err, recordset) {
@@ -166,8 +187,8 @@ router.patch('/UpdateRequest', function (req, res) {
         for (var i = 0; i < Object.keys(req.body).length; i++) {
             sqlQueryPatch = sqlQueryPatch + Object.keys(req.body)[i] + " = '" + Object.values(req.body)[i] + "',"
         }
-        sqlQueryPatch = sqlQueryPatch.slice(0, sqlQueryPatch.length - 1) + " WHERE ID = " + req.query.id;
-
+        sqlQueryPatch = sqlQueryPatch.slice(0, sqlQueryPatch.length - 1) + " WHERE id = " + req.query.id;
+ 
         var sqlRequest = new sql.Request();
         sqlRequest.query(sqlQueryPatch, function (err, recordset) {
             if (err) {

@@ -5,6 +5,8 @@ var router = express.Router();
 router.post('/StartRobot', function (req, res, next) {
   var execFile = require('child_process').execFile, child;
   var args = '';
+  console.log(req.query)
+  console.log(args)
   if (req.body) {
     args = JSON.stringify(req.body);
   }
@@ -12,6 +14,7 @@ router.post('/StartRobot', function (req, res, next) {
   child = execFile(process.env.UIPATH_ROBOT_PATH, ['-p', req.query.processName, '--input', args], function (error, stdout, stderr) {
     if (error) {
       res.send(error)
+
     }
     else {
       res.send(stdout)
