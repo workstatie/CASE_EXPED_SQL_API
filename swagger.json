@@ -915,10 +915,7 @@
         "crm_id": {
           "type": "string"
         },
-        "email": {
-          "type": "string"
-        },
-        "phone": {
+        "agreed_solution_time": {
           "type": "string"
         }
       },
