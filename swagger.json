@@ -778,6 +778,103 @@
           }
         }
       }
+    },
+    "/robot/GetProcesses": {
+      "get": {
+        "tags": [
+          "robot"
+        ],
+        "summary": "Get the next process that needs to be launched",
+        "description": "order by priority and date and by front/bg type",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "background_flag",
+            "type": "string",
+            "description": "is background type 1/0",
+            "required": true
+          }
+        ],
+        "responses": {
+          "405": {
+            "description": "Invalid input"
+          }
+        }
+      }
+    },
+    "/robot/SetJobStatus": {
+      "post": {
+        "tags": [
+          "robot"
+        ],
+        "summary": "Change job status ",
+        "description": "",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "job_status_id",
+            "type": "string",
+            "description": "job status id",
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "job_id",
+            "type": "string",
+            "description": "job id",
+            "required": true
+          }
+        ],
+        "responses": {
+          "405": {
+            "description": "Invalid input"
+          }
+        }
+      }
+    },
+    "/robot/AddNewJobs": {
+      "post": {
+        "tags": [
+          "robot"
+        ],
+        "summary": "Add a new Job",
+        "description": "",
+        "operationId": "addJobs",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Request object needed",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Job"
+            }
+          }
+        ],
+        "responses": {
+          "405": {
+            "description": "Invalid input"
+          }
+        }
+      }
     }
   },
   "definitions": {
@@ -985,6 +1082,34 @@
           "format": "int64"
         },
         "feedback": {
+          "type": "string"
+        }
+      },
+      "xml": {
+        "name": "CSAT"
+      }
+    },
+    "Job": {
+      "type": "object",
+      "properties": {
+        "job_type_id": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "payload": {
+          "type": "string"
+        },
+        "priority": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "start_date": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string"
+        },
+        "last_run_time": {
           "type": "string"
         }
       },
