@@ -43,6 +43,10 @@
     {
       "name": "robot",
       "description": ""
+    },
+    {
+      "name": "country",
+      "description": ""
     }
   ],
   "schemes": [
@@ -697,6 +701,26 @@
         }
       }
     },
+    "/api/GetAllCountries": {
+      "get": {
+        "tags": [
+          "country"
+        ],
+        "summary": "Get All Countries ",
+        "description": "",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "405": {
+            "description": "Invalid input"
+          }
+        }
+      }
+    },
     "/robot/StartRobot": {
       "post": {
         "tags": [
@@ -915,7 +939,10 @@
         "crm_id": {
           "type": "string"
         },
-        "agreed_solution_time": {
+        "email": {
+          "type": "string"
+        },
+        "phone": {
           "type": "string"
         }
       },

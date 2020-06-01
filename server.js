@@ -35,6 +35,9 @@ app.use('/api/', systemValues);
 const customer = require('./src/routes/Customer');
 app.use('/api/', customer);
 
+const countries = require('./src/routes/Countries');
+app.use('/api/', countries);
+
 
 //ROBOT 
 const robotTrigger = require('./src/robotJs/robotTrigger');
