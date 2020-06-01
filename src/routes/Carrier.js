@@ -30,34 +30,37 @@ router.get('/GetAllCarriers', function (req, res, next) {
 //Add a new carrier
 router.post('/AddCarrier', function (req, res) {
     const request = req.body;
-    if (Object.keys(request).length != 5) {
-        res.status(400)
-        res.send('Request Failed - expected 5 fields, received ' + Object.keys(request).length);
-    }
-    else {
-        sql.connect(dbconfig, function (err) {
+    sql.connect(dbconfig, function (err) {
+        if (err) {
+            console.log(err);
+        }
+
+        let sqlQueryPost = "INSERT INTO [Carrier] ("
+
+        for (var i = 0; i < Object.keys(req.body).length; i++) {
+            sqlQueryPost = sqlQueryPost + Object.keys(req.body)[i] + ",";
+        }
+
+        sqlQueryPost= sqlQueryPost + "  datetime_created, datetime_modified)  OUTPUT SCOPE_IDENTITY()  VALUES ( '"
+
+        for (var i = 0; i < Object.keys(req.body).length; i++) {
+            sqlQueryPost = sqlQueryPost+ Object.values(req.body)[i] + "','"
+        }
+        sqlQueryPost = sqlQueryPost.slice(0, sqlQueryPost.length - 2) + ", GETDATE(), GETDATE()) SELECT SCOPE_IDENTITY() as id";
+        
+        var sqlRequest = new sql.Request();
+        sqlRequest.query(sqlQueryPost, function (err, recordset) {
             if (err) {
-                console.log(err);
+                res.status(400)
+                res.send(err);
+                console.log(err)
+            } else {
+                res.status(200)
+                res.send(recordset);
             }
-            var sqlRequest = new sql.Request();
-            const sqlQuery = "INSERT INTO "+ tableName +" (name, phone, email, orders_fulfilled, rating, datetime_created, datetime_modified) OUTPUT SCOPE_IDENTITY()  VALUES ('" +
-                request.name + "','" +
-                request.phone + "','" +
-                request.email + "','" +
-                request.orders_fulfilled + "','" +
-                request.rating + "',GETDATE(), GETDATE()) SELECT SCOPE_IDENTITY() as id";
-            sqlRequest.query(sqlQuery, function (err, recordset) {
-                if (err) {
-                    res.status(400)
-                    res.send(err);
-                    console.log(err)
-                } else {
-                    res.status(200)
-                    res.send(recordset);
-                }
-            });
         });
-    }
+    });
+    
 });
 
 module.exports = router;

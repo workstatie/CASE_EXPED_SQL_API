@@ -30,35 +30,37 @@ router.get('/GetTrackingInfo', function (req, res, next) {
 //Create new Tracking 
 router.post('/AddTrackingInfo', function (req, res) {
     const request = req.body;
-    if (Object.keys(request).length != 5) {
-        res.status(400)
-        res.send('Request Failed - expected 5 fields, received ' + Object.keys(request).length);
-    }
-    else {
-        sql.connect(dbconfig, function (err) {
-            if (err) {
-                console.log(err);
-            }
-            var sqlRequest = new sql.Request();
-            const sqlQuery = "INSERT INTO "+ tableName +" (request_id, carrier_id, driver_contact_phone, completed, warnings, datetime_created, datetime_modified) VALUES ('" +
-                request.request_id + "','" +
-                request.carrier_id + "','" +
-                request.driver_contact_phone + "','" +
-                request.completed + "','" +
-                request.warnings + "',GETDATE(), GETDATE()) ";
-            sqlRequest.query(sqlQuery, function (err, recordset) {
-                if (err) {
-                    res.status(400)
-                    res.send(err);
-                    console.log(err)
-                } else {
-                    res.status(200)
-                    res.send('inserting data in SQL table ' + tableName);
-                }
-            });
-        });
-    }
-});
+    sql.connect(dbconfig, function (err) {
+        if (err) {
+            console.log(err);
+        }
 
+        let sqlQueryPost = "INSERT INTO " + tableName +" ("
+
+        for (var i = 0; i < Object.keys(req.body).length; i++) {
+            sqlQueryPost = sqlQueryPost + Object.keys(req.body)[i] + ",";
+        }
+
+        sqlQueryPost= sqlQueryPost + "  datetime_created, datetime_modified)  OUTPUT SCOPE_IDENTITY()  VALUES ( '"
+
+        for (var i = 0; i < Object.keys(req.body).length; i++) {
+            sqlQueryPost = sqlQueryPost+ Object.values(req.body)[i] + "','"
+        }
+        sqlQueryPost = sqlQueryPost.slice(0, sqlQueryPost.length - 2) + ", GETDATE(), GETDATE()) SELECT SCOPE_IDENTITY() as id";
+        
+        var sqlRequest = new sql.Request();
+        sqlRequest.query(sqlQueryPost, function (err, recordset) {
+            if (err) {
+                res.status(400)
+                res.send(err);
+                console.log(err)
+            } else {
+                res.status(200)
+                res.send(recordset);
+            }
+        });
+    });
+    
+});
 
 module.exports = router;

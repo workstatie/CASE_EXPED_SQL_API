@@ -18,7 +18,7 @@ router.get('/GetSolutions', function (req, res, next) {
             console.log(err);
         }
         var request = new sql.Request();
-        request.query('select * from ' + tableName , function (err, recordset) {
+        request.query('select * from ' + tableName, function (err, recordset) {
             if (err) {
                 console.log(err)
             }
@@ -63,36 +63,39 @@ router.get('/GetSolutionForRequestID', function (req, res, next) {
 //Add a new solution
 router.post('/AddSolution', function (req, res) {
     const request = req.body;
-    if (Object.keys(request).length != 7) {
-        res.status(400)
-        res.send('Request Failed - expected 7 fields, received ' + Object.keys(request).length);
-    }
-    else {
-        sql.connect(dbconfig, function (err) {
+
+    sql.connect(dbconfig, function (err) {
+        if (err) {
+            console.log(err);
+        }
+
+        let sqlQueryPost = "INSERT INTO " + tableName + " ("
+
+        for (var i = 0; i < Object.keys(req.body).length; i++) {
+            sqlQueryPost = sqlQueryPost + Object.keys(req.body)[i] + ",";
+        }
+
+        sqlQueryPost = sqlQueryPost + "  datetime_created, datetime_modified)  OUTPUT SCOPE_IDENTITY()  VALUES ( '"
+        for (var i = 0; i < Object.keys(req.body).length; i++) {
+            sqlQueryPost = sqlQueryPost + Object.values(req.body)[i] + "','"
+        }
+        sqlQueryPost = sqlQueryPost.slice(0, sqlQueryPost.length - 2) + ", GETDATE(), GETDATE()) SELECT SCOPE_IDENTITY() as id";
+        console.log(sqlQueryPost)
+
+        var sqlRequest = new sql.Request();
+
+        sqlRequest.query(sqlQueryPost, function (err, recordset) {
             if (err) {
-                console.log(err);
+                res.status(400)
+                res.send(err);
+                console.log(err)
+            } else {
+                res.status(200)
+                res.send(recordset);
             }
-            var sqlRequest = new sql.Request();
-            const sqlQuery = "INSERT INTO "+ tableName +" (request_id, price, delay, carrier_id, truck_type_id, details, transit_time, datetime_created, datetime_modified) OUTPUT SCOPE_IDENTITY() VALUES ('" +
-                request.request_id + "','" +
-                request.price + "','" +
-                request.delay + "','" +
-                request.carrier_id + "','" +
-                request.truck_type_id + "','" +
-                request.details + "','" +
-                request.transit_time + "',GETDATE(), GETDATE()) SELECT SCOPE_IDENTITY() as id ";
-            sqlRequest.query(sqlQuery, function (err, recordset) {
-                if (err) {
-                    res.status(400)
-                    res.send(err);
-                    console.log(err)
-                } else {
-                    res.status(200)
-                    res.send(recordset);
-                }
-            });
         });
-    }
+    });
+
 });
 
 module.exports = router;

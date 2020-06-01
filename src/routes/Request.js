@@ -18,7 +18,6 @@ router.get('/GetRequests', function (req, res, next) {
             console.log(err);
         }
         var request = new sql.Request();
-        //queryValue = 'select * from ' + tableName + ' where assigned_user_id='
         queryValue = "select r.*, rst.[name] as [status_name], rs.[name] as [source_name], tt.[name] as [truck_type_name] \
         from [Request] as r  \
         left join [Request_Status_Type] as rst on r.request_status_type_id = rst.id \
