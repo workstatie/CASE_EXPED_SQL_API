@@ -18,12 +18,41 @@ router.get('/GetRequests', function (req, res, next) {
             console.log(err);
         }
         var request = new sql.Request();
-        if (req.query.assigned_user_id === 'NULL')
-            queryValue = 'select * from ' + tableName + ' where assigned_user_id is '
-        else
-            queryValue = 'select * from ' + tableName + ' where assigned_user_id='
+        //queryValue = 'select * from ' + tableName + ' where assigned_user_id='
+        queryValue = "select r.*, rst.[name] as [status_name], rs.[name] as [source_name], tt.[name] as [truck_type_name] \
+        from [Request] as r  \
+        left join [Request_Status_Type] as rst on r.request_status_type_id = rst.id \
+        left join [Request_Sources] as rs on r.request_source_id = rs.id \
+        left join [Truck_Type] as tt on r.truck_type_id = tt.id \
+        where assigned_user_id =" 
 
         request.query(queryValue + req.query.assigned_user_id, function (err, recordset) {
+            if (err) {
+                console.log(err)
+                res.status(405);
+                res.send(err)
+            }
+            res.send(recordset);
+        });
+    });
+});
+
+//Get Next Request
+router.get('/GetUnassignedRequests', function (req, res, next) {
+    sql.connect(dbconfig, function (err) {
+        if (err) {
+            console.log(err);
+        }
+        var request = new sql.Request();
+        queryValue = "select r.*, rst.[name] as [status_name], rs.[name] as [source_name], tt.[name] as [truck_type_name], cust.[name] as [customer_name]\
+        from [Request] as r  \
+        left join [Customer] as cust on r.customer_id = cust.id \
+        left join [Request_Status_Type] as rst on r.request_status_type_id = rst.id \
+        left join [Request_Sources] as rs on r.request_source_id = rs.id \
+        left join [Truck_Type] as tt on r.truck_type_id = tt.id \
+        where assigned_user_id is NULL and request_source_id='1'"
+        
+        request.query(queryValue, function (err, recordset) {
             if (err) {
                 console.log(err)
                 res.status(405);
