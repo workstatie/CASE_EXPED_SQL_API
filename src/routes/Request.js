@@ -107,7 +107,6 @@ router.get('/GetRequestByTransporeonID', function (req, res, next) {
         if (err) {
             console.log(err);
         }
-        console.log("aioc")
         var request = new sql.Request();
         request.query('select * from ' + tableName + ' where transporeon_id=' + req.query.transporeon_id, function (err, recordset){
             if (err) {
@@ -119,6 +118,25 @@ router.get('/GetRequestByTransporeonID', function (req, res, next) {
     });
 });
 
+router.get('/GetRequestByCountry', function (req, res, next) {
+    sql.connect(dbconfig, function (err) {
+        if (err) {
+            console.log(err);
+        }
+        var request = new sql.Request();
+        request.query('select r.*, rst.[name] as [status_name], rs.[name] as [source_name] \
+        from [Request] as r  \
+        left join [Request_Status_Type] as rst on r.request_status_type_id = rst.id \
+        left join [Request_Sources] as rs on r.request_source_id = rs.id \
+        where from_address_country in (select name from country where id in (select country_id from user_filters where user_id = '+req.query.user_id +'))', function (err, recordset){
+            if (err) {
+                console.log(err)
+            }
+            //    / res.send(JSON.stringify(recordset));
+            res.send(recordset);
+        });
+    });
+});
 
 //Get Request by ID
 router.get('/GetRequestDetails', function (req, res, next) {
@@ -160,6 +178,7 @@ router.post('/NewRequest', function (req, res) {
         console.log(sqlQueryPost)
 
         var sqlRequest = new sql.Request();
+        console.log(sqlQueryPost);
 
         sqlRequest.query(sqlQueryPost, function (err, recordset) {
             if (err) {
@@ -230,5 +249,7 @@ router.patch('/UpdateRequest', function (req, res) {
         });
     });
 });
+
+
 
 module.exports = router;
