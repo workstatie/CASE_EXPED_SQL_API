@@ -42,7 +42,7 @@ router.post('/StartRobot', function (req, res, next) {
     }
     var request = new sql.Request();
     queryValue = "SELECT TOP 1 \
-    Job_Scheduler.job_type_id, Job_Scheduler.payload  \
+    Job_Scheduler.id, Job_Scheduler.job_type_id, Job_Scheduler.payload  \
     FROM Job_Scheduler, Job_names \
     where \
     Job_scheduler.job_type_id = Job_names.id \
@@ -139,7 +139,7 @@ module.exports = router;
 
 SELECT TOP 1
     
-Job_Scheduler.job_type_id, Job_Scheduler.payload 
+Job_Scheduler.id, Job_Scheduler.job_type_id, Job_Scheduler.payload 
 
 FROM Job_Scheduler, Job_names
 where
