@@ -90,7 +90,6 @@ router.get('/GetAllRequests', function (req, res, next) {
         if (err) {
             console.log(err);
         }
-        console.log("aioc")
         var request = new sql.Request();
         request.query('select * from ' + tableName, function (err, recordset) {
             if (err) {
