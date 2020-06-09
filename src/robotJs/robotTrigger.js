@@ -69,7 +69,7 @@ router.patch('/SetJobStatus', function (req, res) {
           console.log(err);
       }
 
-      if(req.query.job_id){
+      if(req.query.job_status_id != 1){
         var sqlQueryPut = "Update Job_Scheduler set status="+req.query.job_status_id+ " , last_run_time=getdate()  where Job_Scheduler.id="+req.query.job_id
        
       }
