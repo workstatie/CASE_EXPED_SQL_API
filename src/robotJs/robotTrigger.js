@@ -70,11 +70,11 @@ router.patch('/SetJobStatus', function (req, res) {
       }
 
       if(req.query.job_id){
-        let sqlQueryPut = "Update Job_Scheduler set status="+req.query.job_status_id+ " , last_run_time=getdate()  where Job_Scheduler.id="+req.query.job_id
+        var sqlQueryPut = "Update Job_Scheduler set status="+req.query.job_status_id+ " , last_run_time=getdate()  where Job_Scheduler.id="+req.query.job_id
        
       }
       else {
-        let sqlQueryPut = "Update Job_Scheduler set status="+req.query.job_status_id+ ", last_run_time=getdate(), start_date=dateadd(hour,2,getdate()) where Job_Scheduler.id="+req.query.job_id
+        var sqlQueryPut = "Update Job_Scheduler set status="+req.query.job_status_id+ ", last_run_time=getdate(), start_date=dateadd(hour,2,getdate()) where Job_Scheduler.id="+req.query.job_id
       }
 
      
@@ -108,7 +108,7 @@ router.post('/AddNewJobs', function (req, res) {
           sqlQueryPost = sqlQueryPost + Object.keys(req.body)[i] + ",";
       }
 
-      sqlQueryPost = sqlQueryPost + " ) OUTPUT SCOPE_IDENTITY()  VALUES ( '"
+      sqlQueryPost = sqlQueryPost.slice(0, sqlQueryPost.length - 1) + " ) OUTPUT SCOPE_IDENTITY()  VALUES ( '"
       for (var i = 0; i < Object.keys(req.body).length; i++) {
           sqlQueryPost = sqlQueryPost + Object.values(req.body)[i] + "','"
       }
