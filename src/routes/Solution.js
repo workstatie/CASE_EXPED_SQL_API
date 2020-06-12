@@ -34,7 +34,12 @@ router.get('/GetSolutionByID', function (req, res, next) {
             console.log(err);
         }
         var request = new sql.Request();
-        request.query('select * from ' + tableName + ' where id=' + req.query.id, function (err, recordset) {
+        let query ="select s.*, cr.[email] as [carrier_email] \
+        from [Solution] as s \
+        left join [Carrier] as cr on s.carrier_id = cr.id \
+        where s.id = "
+
+        request.query(query + req.query.id, function (err, recordset) {
             if (err) {
                 console.log(err)
             }
@@ -50,7 +55,33 @@ router.get('/GetSolutionForRequestID', function (req, res, next) {
             console.log(err);
         }
         var request = new sql.Request();
-        request.query('select * from ' + tableName + ' where request_id=' + req.query.request_id, function (err, recordset) {
+
+        let query ="select s.*, cr.[email] as [carrier_email] \
+        from [Solution] as s \
+        left join [Carrier] as cr on s.carrier_id = cr.id \
+        where s.request_id = "
+        request.query(query + req.query.request_id, function (err, recordset) {
+            if (err) {
+                console.log(err)
+            }
+            res.send(recordset);
+        });
+    });
+});
+
+//Get Solution by ID
+router.get('/GetConfirmedSolutionForRequestID', function (req, res, next) {
+    sql.connect(dbconfig, function (err) {
+        if (err) {
+            console.log(err);
+        }
+        var request = new sql.Request();
+
+        let query ="select s.*, cr.[email] as [carrier_email] \
+        from [Solution] as s \
+        left join [Carrier] as cr on s.carrier_id = cr.id \
+        where s.solution_status = 2 and s.request_id = "
+        request.query(query + req.query.request_id, function (err, recordset) {
             if (err) {
                 console.log(err)
             }
@@ -96,6 +127,36 @@ router.post('/AddSolution', function (req, res) {
         });
     });
 
+});
+
+
+//Update Solution by ID
+router.patch('/UpdateSolution', function (req, res) {
+
+    sql.connect(dbconfig, function (err) {
+        if (err) {
+            console.log(err);
+        }
+        let sqlQueryPatch = "UPDATE [Solution] SET "
+
+        for (var i = 0; i < Object.keys(req.body).length; i++) {
+            sqlQueryPatch = sqlQueryPatch + Object.keys(req.body)[i] + " = '" + Object.values(req.body)[i] + "',"
+        }
+        sqlQueryPatch = sqlQueryPatch.slice(0, sqlQueryPatch.length - 1) + " WHERE ID = " + req.query.id;
+        console.log(sqlQueryPatch)
+        var sqlRequest = new sql.Request();
+
+        sqlRequest.query(sqlQueryPatch, function (err, recordset) {
+            if (err) {
+                res.status(400)
+                res.send(err);
+                console.log(err)
+            } else {
+                res.status(200)
+                res.send('updated')
+            }
+        });
+    });
 });
 
 module.exports = router;
