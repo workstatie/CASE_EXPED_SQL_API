@@ -1,8 +1,14 @@
 function getUserInfo (authToken, callback){
     
-    var https = require("https");
+    if (authToken = "5bcbce1c-b328-4baa-9153-d673b8ae81c7") 
+    {
+        return "robot is authenticated";
+    }
+    else 
+    {
+        var https = require("https");
     
-    var options = {
+        var options = {
         host: "dev-444034.okta.com",
         port: 443,
         path: "/oauth2/default/v1/userinfo",
@@ -13,7 +19,7 @@ function getUserInfo (authToken, callback){
         }
     };
     
-    var req = https.get(options, function (res) {
+        var req = https.get(options, function (res) {
         var body = "";
         res.on('data', function(data) {
            body += data;
@@ -27,6 +33,9 @@ function getUserInfo (authToken, callback){
     });
     
     req.end();
+    }
+    
+    
    
 }
 

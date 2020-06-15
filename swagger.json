@@ -523,6 +523,35 @@
         }
       }
     },
+    "/api/GetCustomerContactByCustomerID": {
+      "get": {
+        "tags": [
+          "customer"
+        ],
+        "summary": "Get Customer Contact by ID",
+        "description": "",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "customer_id",
+            "type": "string",
+            "description": "Customer ID",
+            "required": true
+          }
+        ],
+        "responses": {
+          "405": {
+            "description": "Invalid input"
+          }
+        }
+      }
+    },
     "/api/CreateCustomer": {
       "post": {
         "tags": [
