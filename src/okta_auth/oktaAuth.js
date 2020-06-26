@@ -1,8 +1,9 @@
-function getUserInfo (authToken, callback){
+function checkSecurity (authToken, callback){
     
-    if (authToken = "5bcbce1c-b328-4baa-9153-d673b8ae81c7") 
+    if (authToken === "5bcbce1c-b328-4baa-9153-d673b8ae81c7") 
     {
-        return "robot is authenticated";
+        console.log(authToken)
+        return callback("567");
     }
     else 
     {
@@ -22,6 +23,7 @@ function getUserInfo (authToken, callback){
         var req = https.get(options, function (res) {
         var body = "";
         res.on('data', function(data) {
+           // console.log(res);
            body += data;
         });
         res.on('end', function() {
@@ -31,7 +33,7 @@ function getUserInfo (authToken, callback){
            return callback(e);
         });
     });
-    
+    //console.log(req)
     req.end();
     }
     
@@ -39,10 +41,18 @@ function getUserInfo (authToken, callback){
    
 }
 
-//cum sa o suni :D 
+module.exports = {checkSecurity};
 
-getUserInfo("eyJraWQiOiJyVGp4dEZaU1VxMUh5a2s3c2pZMHpQMFNucEFRdjZLQktvZG5nQTdnX0JVIiwiYWxnIjoiUlMyNTYifQ.eyJ2ZXIiOjEsImp0aSI6IkFULl8xaENzZlNjWkotdjBWNi0xUlItZ0txemIwakpFbkdWMHhFVGhFcElpbmsiLCJpc3MiOiJodHRwczovL2Rldi00NDQwMzQub2t0YS5jb20vb2F1dGgyL2RlZmF1bHQiLCJhdWQiOiJhcGk6Ly9kZWZhdWx0IiwiaWF0IjoxNTkxMDMwNDY0LCJleHAiOjE1OTEwMzQwNjQsImNpZCI6IjBvYWFleTR1MTJKRjRGdFdwNHg2IiwidWlkIjoiMDB1YWV2anc5QmE3d2dLSGI0eDYiLCJzY3AiOlsiZW1haWwiLCJvcGVuaWQiXSwic3ViIjoibWloYWljZGVAZ21haWwuY29tIiwiZW1haWwiOiJtaWhhaWNkZUBnbWFpbC5jb20ifQ.j3e-w8hion7ZAwWbwqM5oyfYEe-nmkYdqtBs_8pCmnBwd3_DbC7sgeTVYgLvYjCdrl5DMC-SxcDwgq0ORXpjweRqh7rgzwxVLKiWe3TPx8wjvGauDVgk-jGQFBqX-Eo4bnOfxEHu4Iudz5TCNkAaFXkn53I20Nx6ebWhAJ1dIcDt62uCurT-SFwCP1hQ_36ZHZxcy4BIjIdkZIaihUp6uVPGemP05snFoGk_lOAWQx8l0XtXrwgIoHp6v-N2vv8H9gBdNHKSXFft8L6sRYjRJBr8ZblhZ99FNiSrTzkIWCeHRjcYH0gNHsSkkq0Y0UIYXnSUf1wJM73op0Nby0xqSQ"
-,function(test)
+/*cum sa o suni :D 
+
+getUserInfo("5bcbce1c-b328-4baa-9153-d67b8ae81c7"
+,function(result)
 {
-    console.log(test);
+    if (result==="567" || result.includes("@"))
+    {
+        console.log("ok");
+    }
+    else {console.log("not ok");}
+    
 });
+*/

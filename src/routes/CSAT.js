@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var sql = require("mssql");
+let securityObj = require('../okta_auth/oktaAuth.js');
 var dbconfig = {
     user: process.env.SQL_USER,
     password: process.env.SQL_PASSWORD,
@@ -13,8 +14,14 @@ const tableName = '[CSAT]s';
 
 //Create new CSAT
 router.post('/AddCSAT', function (req, res) {
-    const request = req.body;
-    sql.connect(dbconfig, function (err) {
+      //Check Auth
+      var authStatus = securityObj.checkSecurity(req.query.api_key,function(result)
+      {
+          if (result==="567" || result.includes("@"))
+          {
+              //key is good
+              const request = req.body;
+         sql.connect(dbconfig, function (err) {
         if (err) {
             console.log(err);
         }
@@ -44,6 +51,18 @@ router.post('/AddCSAT', function (req, res) {
             }
         });
     });
+          }
+          else 
+          {
+              //key not good
+              res.status(401);
+              res.send("authentication failed!");
+              console.log ("authentication failed");
+          }
+          
+      });
+      
+   
     
 });
 
