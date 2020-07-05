@@ -38,7 +38,7 @@ router.get('/GetSolutions', function (req, res, next) {
               //key not good
               res.status(401);
               res.send("authentication failed!");
-              console.log ("authentication failed");
+              console.log ("authentication failed GetSolutions");
           }
           
       });
@@ -76,7 +76,7 @@ router.get('/GetSolutionByID', function (req, res, next) {
               //key not good
               res.status(401);
               res.send("authentication failed!");
-              console.log ("authentication failed");
+              console.log ("authentication failed GetSolutionByID");
           }
           
       });
@@ -114,7 +114,7 @@ router.get('/GetSolutionForRequestID', function (req, res, next) {
               //key not good
               res.status(401);
               res.send("authentication failed!");
-              console.log ("authentication failed");
+              console.log ("authentication failed GetSolutionForRequestID");
           }
           
       });
@@ -152,7 +152,7 @@ router.get('/GetConfirmedSolutionForRequestID', function (req, res, next) {
               //key not good
               res.status(401);
               res.send("authentication failed!");
-              console.log ("authentication failed");
+              console.log ("authentication failed GetConfirmedSolutionForRequestID");
           }
           
       });
@@ -163,6 +163,7 @@ router.get('/GetConfirmedSolutionForRequestID', function (req, res, next) {
 //Add a new solution
 router.post('/AddSolution', function (req, res) {
       //Check Auth
+    
       var authStatus = securityObj.checkSecurity(req.query.api_key,function(result)
       {
           if (result==="567" || result.includes("@"))
@@ -208,7 +209,7 @@ router.post('/AddSolution', function (req, res) {
               //key not good
               res.status(401);
               res.send("authentication failed!");
-              console.log ("authentication failed");
+              console.log ("authentication failed AddSolution");
           }
           
       });
@@ -254,7 +255,7 @@ router.patch('/UpdateSolution', function (req, res) {
               //key not good
               res.status(401);
               res.send("authentication failed!");
-              console.log ("authentication failed");
+              console.log ("authentication failed UpdateSolution");
           }
           
       });

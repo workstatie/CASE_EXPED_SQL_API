@@ -23,7 +23,7 @@ function checkSecurity (authToken, callback){
         var req = https.get(options, function (res) {
         var body = "";
         res.on('data', function(data) {
-           // console.log(res);
+            //console.log(res);
            body += data;
         });
         res.on('end', function() {

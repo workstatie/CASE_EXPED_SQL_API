@@ -41,7 +41,7 @@ app.use('/api/', countries);
 
 //ROBOT 
 const robotTrigger = require('./src/robotJs/robotTrigger');
-app.use('/robot/', robotTrigger);
+app.use('/api/', robotTrigger);
 
 // View Engine
 app.use('/', swaggerUi.serve, swaggerUi.setup(swaggerDocument));

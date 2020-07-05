@@ -43,62 +43,57 @@ router.get('/GetAllCarriers', function (req, res, next) {
             console.log ("authentication failed");
         }
         
-    });
-    
-    
+    });       
 });
 
 //Add a new carrier
 router.post('/AddCarrier', function (req, res) {
-        //Check Auth
-        var authStatus = securityObj.checkSecurity(req.query.api_key,function(result)
+    //Check Auth
+    var authStatus = securityObj.checkSecurity(req.query.api_key,function(result)
+    {
+        if (result==="567" || result.includes("@"))
         {
-            if (result==="567" || result.includes("@"))
-            {
-                //key is good
-                const request = req.body;
-                sql.connect(dbconfig, function (err) {
+            //key is good
+            const request = req.body;
+            sql.connect(dbconfig, function (err) {
+                if (err) {
+                    console.log(err);
+                }
+        
+                let sqlQueryPost = "INSERT INTO [Carrier] ("
+        
+                for (var i = 0; i < Object.keys(req.body).length; i++) {
+                    sqlQueryPost = sqlQueryPost + Object.keys(req.body)[i] + ",";
+                }
+        
+                sqlQueryPost= sqlQueryPost + "  datetime_created, datetime_modified)  OUTPUT SCOPE_IDENTITY()  VALUES ( '"
+        
+                for (var i = 0; i < Object.keys(req.body).length; i++) {
+                    sqlQueryPost = sqlQueryPost+ Object.values(req.body)[i] + "','"
+                }
+                sqlQueryPost = sqlQueryPost.slice(0, sqlQueryPost.length - 2) + ", GETDATE(), GETDATE()) SELECT SCOPE_IDENTITY() as id";
+                
+                var sqlRequest = new sql.Request();
+                sqlRequest.query(sqlQueryPost, function (err, recordset) {
                     if (err) {
-                        console.log(err);
+                        res.status(400)
+                        res.send(err);
+                        console.log(err)
+                    } else {
+                        res.status(200)
+                        res.send(recordset);
                     }
-            
-                    let sqlQueryPost = "INSERT INTO [Carrier] ("
-            
-                    for (var i = 0; i < Object.keys(req.body).length; i++) {
-                        sqlQueryPost = sqlQueryPost + Object.keys(req.body)[i] + ",";
-                    }
-            
-                    sqlQueryPost= sqlQueryPost + "  datetime_created, datetime_modified)  OUTPUT SCOPE_IDENTITY()  VALUES ( '"
-            
-                    for (var i = 0; i < Object.keys(req.body).length; i++) {
-                        sqlQueryPost = sqlQueryPost+ Object.values(req.body)[i] + "','"
-                    }
-                    sqlQueryPost = sqlQueryPost.slice(0, sqlQueryPost.length - 2) + ", GETDATE(), GETDATE()) SELECT SCOPE_IDENTITY() as id";
-                    
-                    var sqlRequest = new sql.Request();
-                    sqlRequest.query(sqlQueryPost, function (err, recordset) {
-                        if (err) {
-                            res.status(400)
-                            res.send(err);
-                            console.log(err)
-                        } else {
-                            res.status(200)
-                            res.send(recordset);
-                        }
-                    });
                 });
-            }
-            else 
-            {
-                //key not good
-                res.status(401);
-                res.send("authentication failed!");
-                console.log ("authentication failed");
-            }
-            
-        });
-    
-    
+            });
+        }
+        else 
+        {
+            //key not good
+            res.status(401);
+            res.send("authentication failed!");
+            console.log ("authentication failed");
+        }            
+    });
 });
 
 module.exports = router;

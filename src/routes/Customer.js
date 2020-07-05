@@ -37,7 +37,7 @@ router.get('/GetAllCustomers', function (req, res, next) {
               //key not good
               res.status(401);
               res.send("authentication failed!");
-              console.log ("authentication failed");
+              console.log ("authentication failed GetAllCustomers");
           }
           
       });
@@ -74,7 +74,7 @@ router.get('/GetCustomerByID', function (req, res, next) {
               //key not good
               res.status(401);
               res.send("authentication failed!");
-              console.log ("authentication failed");
+              console.log ("authentication failed GetCustomerByID");
           }
           
       });
@@ -111,7 +111,7 @@ router.get('/GetCustomerByName', function (req, res, next) {
               //key not good
               res.status(401);
               res.send("authentication failed!");
-              console.log ("authentication failed");
+              console.log ("authentication failed GetCustomerByName");
           }
           
       });
@@ -146,7 +146,7 @@ router.get('/GetCustomerContactByCustomerID', function (req, res, next) {
               //key not good
               res.status(401);
               res.send("authentication failed!");
-              console.log ("authentication failed");
+              console.log ("authentication failed GetCustomerContactByCustomerID");
           }
           
       });
@@ -183,7 +183,7 @@ router.get('/GetCustomerByID', function (req, res, next) {
               //key not good
               res.status(401);
               res.send("authentication failed!");
-              console.log ("authentication failed");
+              console.log ("authentication failed GetCustomerByID");
           }
           
       });
@@ -234,7 +234,7 @@ router.post('/CreateCustomer', function (req, res) {
              //key not good
              res.status(401);
              res.send("authentication failed!");
-             console.log ("authentication failed");
+             console.log ("authentication failed CreateCustomer");
          }
          
      });
@@ -287,7 +287,7 @@ router.post('/CreateCustomerContact', function (req, res) {
              //key not good
              res.status(401);
              res.send("authentication failed!");
-             console.log ("authentication failed");
+             console.log ("authentication failed CreateCustomerContact");
          }
          
      });

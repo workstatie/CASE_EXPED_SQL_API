@@ -47,7 +47,7 @@ router.get('/GetRequests', function (req, res, next) {
               //key not good
               res.status(401);
               res.send("authentication failed!");
-              console.log ("authentication failed");
+              console.log ("authentication failed GetRequests");
           }
           
       });
@@ -90,7 +90,7 @@ router.get('/GetUnassignedRequests', function (req, res, next) {
               //key not good
               res.status(401);
               res.send("authentication failed!");
-              console.log ("authentication failed");
+              console.log ("authentication failed GetUnassignedRequests");
           }
           
       });
@@ -127,7 +127,7 @@ router.get('/GetRequestsByStatusId', function (req, res, next) {
               //key not good
               res.status(401);
               res.send("authentication failed!");
-              console.log ("authentication failed");
+              console.log ("authentication failed GetRequestsByStatusId");
           }
           
       });
@@ -139,7 +139,7 @@ router.get('/GetRequestsByStatusId', function (req, res, next) {
 //Get Request by ID
 router.get('/GetAllRequests', function (req, res, next) {
       //Check Auth
-      console.log('aici')
+      //console.log('aici')
 
       var authStatus = securityObj.checkSecurity(req.query.api_key,function(result)
       {
@@ -166,7 +166,7 @@ router.get('/GetAllRequests', function (req, res, next) {
               //key not good
               res.status(401);
               res.send("authentication failed!");
-              console.log ("authentication failed");
+              console.log ("authentication failed GetAllRequests");
           }
           
       });
@@ -199,7 +199,7 @@ router.get('/GetRequestByTransporeonID', function (req, res, next) {
               //key not good
               res.status(401);
               res.send("authentication failed!");
-              console.log ("authentication failed");
+              console.log ("authentication failed GetRequestByTransporeonID");
           }
           
       });
@@ -222,7 +222,8 @@ router.get('/GetRequestByCountry', function (req, res, next) {
                 from [Request] as r  \
                 left join [Request_Status_Type] as rst on r.request_status_type_id = rst.id \
                 left join [Request_Sources] as rs on r.request_source_id = rs.id \
-                where from_address_country in (select name from country where id in (select country_id from user_filters where user_id = '+req.query.user_id +'))', function (err, recordset){
+                where from_address_country in (select name from country where id in (select country_id from user_filters where user_id = '+req.query.user_id +'))  \
+                and rst.id NOT IN (9, 7) and r.load_datetime > GETDATE() ORDER BY r.load_datetime ASC', function (err, recordset){
                     if (err) {
                         console.log(err)
                     }
@@ -236,7 +237,7 @@ router.get('/GetRequestByCountry', function (req, res, next) {
               //key not good
               res.status(401);
               res.send("authentication failed!");
-              console.log ("authentication failed");
+              console.log ("authentication failed GetRequestByCountry");
           }
           
       });
@@ -270,7 +271,7 @@ router.get('/GetRequestDetails', function (req, res, next) {
               //key not good
               res.status(401);
               res.send("authentication failed!");
-              console.log ("authentication failed");
+              console.log ("authentication failed GetRequestDetails");
           }
           
       });
@@ -280,6 +281,7 @@ router.get('/GetRequestDetails', function (req, res, next) {
 //Create new Request
 router.post('/NewRequest', function (req, res) {
       //Check Auth
+     
       var authStatus = securityObj.checkSecurity(req.query.api_key,function(result)
       {
           if (result==="567" || result.includes("@"))
@@ -325,7 +327,7 @@ router.post('/NewRequest', function (req, res) {
               //key not good
               res.status(401);
               res.send("authentication failed!");
-              console.log ("authentication failed");
+              console.log ("authentication failed NewRequest");
           }
           
       });
@@ -370,7 +372,7 @@ router.put('/UpdateRequest', function (req, res) {
               //key not good
               res.status(401);
               res.send("authentication failed!");
-              console.log ("authentication failed");
+              console.log ("authentication failed UpdateRequest");
           }
           
       });
@@ -415,7 +417,7 @@ router.patch('/UpdateRequest', function (req, res) {
               //key not good
               res.status(401);
               res.send("authentication failed!");
-              console.log ("authentication failed");
+              console.log ("authentication failed UpdateRequest");
           }
           
       });
