@@ -1,10 +1,13 @@
 var express = require('express');
 var bodyParser = require('body-parser');
 var app = express();
+var bearerToken = require('express-bearer-token');
+
 const swaggerUi = require('swagger-ui-express');
 const swaggerDocument = require('./swagger.json');
 require('dotenv').config()
-
+ 
+app.use(bearerToken());
 app.use(bodyParser.json());
 app.use(bodyParser.json({ limit: '5mb' }));
 app.use(bodyParser.urlencoded({ extended: true }));

@@ -17,7 +17,7 @@ const tableName = '[Carrier]'
 //Get All Carriers
 router.get('/GetAllCarriers', function (req, res, next) {
     //Check Auth
-    var authStatus = securityObj.checkSecurity(req.query.api_key,function(result)
+    var authStatus = securityObj.checkSecurity(req.token,function(result)
     {
         if (result==="567" || result.includes("@"))
         {
@@ -49,7 +49,7 @@ router.get('/GetAllCarriers', function (req, res, next) {
 //Add a new carrier
 router.post('/AddCarrier', function (req, res) {
     //Check Auth
-    var authStatus = securityObj.checkSecurity(req.query.api_key,function(result)
+    var authStatus = securityObj.checkSecurity(req.token,function(result)
     {
         if (result==="567" || result.includes("@"))
         {

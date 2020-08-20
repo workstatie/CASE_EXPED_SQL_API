@@ -15,7 +15,7 @@ const tableName = 'Tracking'
 //Get GetTrackingInfo by ID
 router.get('/GetTrackingInfo', function (req, res, next) {
       //Check Auth
-      var authStatus = securityObj.checkSecurity(req.query.api_key,function(result)
+      var authStatus = securityObj.checkSecurity(req.token,function(result)
       {
           if (result==="567" || result.includes("@"))
           {
@@ -48,7 +48,7 @@ router.get('/GetTrackingInfo', function (req, res, next) {
 //Create new Tracking 
 router.post('/AddTrackingInfo', function (req, res) {
       //Check Auth
-      var authStatus = securityObj.checkSecurity(req.query.api_key,function(result)
+      var authStatus = securityObj.checkSecurity(req.token,function(result)
       {
           if (result==="567" || result.includes("@"))
           {

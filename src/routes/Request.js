@@ -15,7 +15,7 @@ const tableName = '[Request]'
 //Get Next Request
 router.get('/GetRequests', function (req, res, next) {
       //Check Auth
-      var authStatus = securityObj.checkSecurity(req.query.api_key,function(result)
+      var authStatus = securityObj.checkSecurity(req.token,function(result)
       {
           if (result==="567" || result.includes("@"))
           {
@@ -57,7 +57,7 @@ router.get('/GetRequests', function (req, res, next) {
 //Get Next Request
 router.get('/GetUnassignedRequests', function (req, res, next) {
       //Check Auth
-      var authStatus = securityObj.checkSecurity(req.query.api_key,function(result)
+      var authStatus = securityObj.checkSecurity(req.token,function(result)
       {
           if (result==="567" || result.includes("@"))
           {
@@ -98,10 +98,12 @@ router.get('/GetUnassignedRequests', function (req, res, next) {
 });
 
 
+
+
 //Get Next Request
 router.get('/GetRequestsByStatusId', function (req, res, next) {
       //Check Auth
-      var authStatus = securityObj.checkSecurity(req.query.api_key,function(result)
+      var authStatus = securityObj.checkSecurity(req.token,function(result)
       {
           if (result==="567" || result.includes("@"))
           {
@@ -141,7 +143,7 @@ router.get('/GetAllRequests', function (req, res, next) {
       //Check Auth
       //console.log('aici')
 
-      var authStatus = securityObj.checkSecurity(req.query.api_key,function(result)
+      var authStatus = securityObj.checkSecurity(req.token,function(result)
       {
           console.log(result)
           if (result==="567" || result.includes("@"))
@@ -173,9 +175,89 @@ router.get('/GetAllRequests', function (req, res, next) {
     
 });
 
+
+//Get Request by ID
+router.get('/GetActiveRequests', function (req, res, next) {
+    //Check Auth
+    //console.log('aici')
+
+    var authStatus = securityObj.checkSecurity(req.token,function(result)
+    {
+        console.log(result)
+        if (result==="567" || result.includes("@"))
+        {
+            //key is good
+            sql.connect(dbconfig, function (err) {
+              if (err) {
+                  console.log(err);
+              }
+              var request = new sql.Request();
+              
+              queryActive= 'Select * from Request where load_datetime >= GETDATE() and request_status_type_id =2'
+
+              request.query(queryActive, function (err, recordset) {
+                  if (err) {
+                      console.log(err)
+                  }
+                  //    / res.send(JSON.stringify(recordset));
+                  res.send(recordset);
+              });
+          });
+        }
+        else 
+        {
+            //key not good
+            res.status(401);
+            res.send("authentication failed!");
+            console.log ("authentication failed GetAllRequests");
+        }
+        
+    });
+  
+});
+
+
+router.get('/CheckTransporeonDuplicate', function (req, res, next) {
+    //Check Auth
+    var authStatus = securityObj.checkSecurity(req.token,function(result)
+    {
+        if (result==="567" || result.includes("@"))
+        {
+            //key is good
+            sql.connect(dbconfig, function (err) {
+              if (err) {
+                  console.log(err);
+              }
+              var request = new sql.Request();
+              var sqlQuery="select * from " + tableName + " where request_source_id = 3 and from_address_postcode='" + req.query.from_address_postcode +
+              "' and to_address_postcode = '" +req.query.to_address_postcode +
+              "' and load_datetime = '" +req.query.load_datetime +
+              "'and unload_datetime = '" +req.query.unload_datetime  +"'"
+
+              request.query(sqlQuery , function (err, recordset){
+                  if (err) {
+                      console.log(err)
+                  }
+                  //    / res.send(JSON.stringify(recordset));
+                  res.send(recordset);
+              });
+          }); 
+        }
+        else 
+        {
+            //key not good
+            res.status(401);
+            res.send("authentication failed!");
+            console.log ("authentication failed GetRequestByTransporeonID");
+        }
+        
+    });
+  
+});
+
 router.get('/GetRequestByTransporeonID', function (req, res, next) {
       //Check Auth
-      var authStatus = securityObj.checkSecurity(req.query.api_key,function(result)
+      var authStatus = securityObj.checkSecurity(req.token,function(result)
       {
           if (result==="567" || result.includes("@"))
           {
@@ -208,7 +290,8 @@ router.get('/GetRequestByTransporeonID', function (req, res, next) {
 
 router.get('/GetRequestByCountry', function (req, res, next) {
       //Check Auth
-      var authStatus = securityObj.checkSecurity(req.query.api_key,function(result)
+      
+      var authStatus = securityObj.checkSecurity(req.token,function(result)
       {
           if (result==="567" || result.includes("@"))
           {
@@ -223,7 +306,7 @@ router.get('/GetRequestByCountry', function (req, res, next) {
                 left join [Request_Status_Type] as rst on r.request_status_type_id = rst.id \
                 left join [Request_Sources] as rs on r.request_source_id = rs.id \
                 where from_address_country in (select name from country where id in (select country_id from user_filters where user_id = '+req.query.user_id +'))  \
-                and rst.id NOT IN (9, 7) and r.load_datetime > GETDATE() ORDER BY r.load_datetime ASC', function (err, recordset){
+                and rst.id NOT IN (9, 7) and r.load_datetime >= GETDATE() ORDER BY r.load_datetime ASC', function (err, recordset){
                     if (err) {
                         console.log(err)
                     }
@@ -237,6 +320,7 @@ router.get('/GetRequestByCountry', function (req, res, next) {
               //key not good
               res.status(401);
               res.send("authentication failed!");
+              console.log(req)
               console.log ("authentication failed GetRequestByCountry");
           }
           
@@ -247,7 +331,7 @@ router.get('/GetRequestByCountry', function (req, res, next) {
 //Get Request by ID
 router.get('/GetRequestDetails', function (req, res, next) {
       //Check Auth
-      var authStatus = securityObj.checkSecurity(req.query.api_key,function(result)
+      var authStatus = securityObj.checkSecurity(req.token,function(result)
       {
           if (result==="567" || result.includes("@"))
           {
@@ -271,6 +355,7 @@ router.get('/GetRequestDetails', function (req, res, next) {
               //key not good
               res.status(401);
               res.send("authentication failed!");
+              console.log(req)
               console.log ("authentication failed GetRequestDetails");
           }
           
@@ -282,7 +367,7 @@ router.get('/GetRequestDetails', function (req, res, next) {
 router.post('/NewRequest', function (req, res) {
       //Check Auth
      
-      var authStatus = securityObj.checkSecurity(req.query.api_key,function(result)
+      var authStatus = securityObj.checkSecurity(req.token,function(result)
       {
           if (result==="567" || result.includes("@"))
           {
@@ -337,7 +422,7 @@ router.post('/NewRequest', function (req, res) {
 //Update Request by ID
 router.put('/UpdateRequest', function (req, res) {
       //Check Auth
-      var authStatus = securityObj.checkSecurity(req.query.api_key,function(result)
+      var authStatus = securityObj.checkSecurity(req.token,function(result)
       {
           if (result==="567" || result.includes("@"))
           {
@@ -383,7 +468,7 @@ router.put('/UpdateRequest', function (req, res) {
 
 router.patch('/UpdateRequest', function (req, res) {
       //Check Auth
-      var authStatus = securityObj.checkSecurity(req.query.api_key,function(result)
+      var authStatus = securityObj.checkSecurity(req.token,function(result)
       {
           if (result==="567" || result.includes("@"))
           {

@@ -2,7 +2,6 @@ function checkSecurity (authToken, callback){
     
     if (authToken === "5bcbce1c-b328-4baa-9153-d673b8ae81c7") 
     {
-        console.log(authToken)
         return callback("567");
     }
     else 

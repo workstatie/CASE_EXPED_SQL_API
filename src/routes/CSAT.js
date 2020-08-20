@@ -15,7 +15,7 @@ const tableName = '[CSAT]s';
 //Create new CSAT
 router.post('/AddCSAT', function (req, res) {
       //Check Auth
-      var authStatus = securityObj.checkSecurity(req.query.api_key,function(result)
+      var authStatus = securityObj.checkSecurity(req.token,function(result)
       {
           if (result==="567" || result.includes("@"))
           {

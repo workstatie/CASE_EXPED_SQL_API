@@ -14,7 +14,7 @@ const tableName = '[Customer]'
 //Get All Customer
 router.get('/GetAllCustomers', function (req, res, next) {
       //Check Auth
-      var authStatus = securityObj.checkSecurity(req.query.api_key,function(result)
+      var authStatus = securityObj.checkSecurity(req.token,function(result)
       {
           if (result==="567" || result.includes("@"))
           {
@@ -48,7 +48,7 @@ router.get('/GetAllCustomers', function (req, res, next) {
 //Get Customer by Company Name
 router.get('/GetCustomerByID', function (req, res, next) {
       //Check Auth
-      var authStatus = securityObj.checkSecurity(req.query.api_key,function(result)
+      var authStatus = securityObj.checkSecurity(req.token,function(result)
       {
           if (result==="567" || result.includes("@"))
           {
@@ -85,7 +85,7 @@ router.get('/GetCustomerByID', function (req, res, next) {
 router.get('/GetCustomerByName', function (req, res, next) {
     
       //Check Auth
-      var authStatus = securityObj.checkSecurity(req.query.api_key,function(result)
+      var authStatus = securityObj.checkSecurity(req.token,function(result)
       {
           if (result==="567" || result.includes("@"))
           {
@@ -96,8 +96,11 @@ router.get('/GetCustomerByName', function (req, res, next) {
                 }
                 
                 var request = new sql.Request();
+            
         
                 const sqlQuery="select * from " + tableName + " WHERE name = '" + req.query.name +"'"
+
+                console.log(sqlQuery)
                 request.query(sqlQuery, function (err, recordset) {
                     if (err) {
                         console.log(err)
@@ -120,7 +123,7 @@ router.get('/GetCustomerByName', function (req, res, next) {
 
 router.get('/GetCustomerContactByCustomerID', function (req, res, next) {
       //Check Auth
-      var authStatus = securityObj.checkSecurity(req.query.api_key,function(result)
+      var authStatus = securityObj.checkSecurity(req.token,function(result)
       {
           if (result==="567" || result.includes("@"))
           {
@@ -157,7 +160,7 @@ router.get('/GetCustomerContactByCustomerID', function (req, res, next) {
 //Get Customer by Company Name
 router.get('/GetCustomerByID', function (req, res, next) {
       //Check Auth
-      var authStatus = securityObj.checkSecurity(req.query.api_key,function(result)
+      var authStatus = securityObj.checkSecurity(req.token,function(result)
       {
           if (result==="567" || result.includes("@"))
           {
@@ -193,7 +196,7 @@ router.get('/GetCustomerByID', function (req, res, next) {
 //Create new Customer 
 router.post('/CreateCustomer', function (req, res) {
      //Check Auth
-     var authStatus = securityObj.checkSecurity(req.query.api_key,function(result)
+     var authStatus = securityObj.checkSecurity(req.token,function(result)
      {
          if (result==="567" || result.includes("@"))
          {
@@ -246,7 +249,7 @@ router.post('/CreateCustomer', function (req, res) {
 //Create new Customer 
 router.post('/CreateCustomerContact', function (req, res) {
      //Check Auth
-     var authStatus = securityObj.checkSecurity(req.query.api_key,function(result)
+     var authStatus = securityObj.checkSecurity(req.token,function(result)
      {
          if (result==="567" || result.includes("@"))
          {

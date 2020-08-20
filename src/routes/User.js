@@ -16,7 +16,7 @@ const tableNameLogs = '[Log]'
 //Get User by ID
 router.get('/GetUserInfo', function (req, res, next) {
       //Check Auth
-      var authStatus = securityObj.checkSecurity(req.query.api_key,function(result)
+      var authStatus = securityObj.checkSecurity(req.token,function(result)
       {
           if (result==="567" || result.includes("@"))
           {
@@ -50,7 +50,7 @@ router.get('/GetUserInfo', function (req, res, next) {
 //Get User by email
 router.get('/GetUserByEmail', function (req, res, next) {
       //Check Auth
-      var authStatus = securityObj.checkSecurity(req.query.api_key,function(result)
+      var authStatus = securityObj.checkSecurity(req.token,function(result)
       {
           if (result==="567" || result.includes("@"))
           {
@@ -60,8 +60,9 @@ router.get('/GetUserByEmail', function (req, res, next) {
                     console.log(err);
                 }
                 var request = new sql.Request();
-                
-                request.query("select ID, username, email, phone from " + tableName + " where email='" + req.query.email + "'", function (err, recordset) {
+                const getUSerQ="select ID, username, email, phone from " + tableName + " where email='" + req.query.email + "'";
+                console.log(getUSerQ)
+                request.query(getUSerQ , function (err, recordset) {
                     if (err) {
                         res.send(err)
                     }
@@ -82,7 +83,7 @@ router.get('/GetUserByEmail', function (req, res, next) {
 //Login User
 router.get('/LoginUser', function (req, res, next) {
       //Check Auth
-      var authStatus = securityObj.checkSecurity(req.query.api_key,function(result)
+      var authStatus = securityObj.checkSecurity(req.token,function(result)
       {
           if (result==="567" || result.includes("@"))
           {
@@ -118,7 +119,7 @@ router.get('/LoginUser', function (req, res, next) {
 //Create new LogEvent 
 router.post('/AddLog', function (req, res) {
     //Check Auth
-    var authStatus = securityObj.checkSecurity(req.query.api_key,function(result)
+    var authStatus = securityObj.checkSecurity(req.token,function(result)
     {
         if (result==="567" || result.includes("@"))
         {
@@ -169,7 +170,7 @@ router.post('/AddLog', function (req, res) {
 //Get Newest Carrier Log 
 router.get('/GetNewestCarrierLog', function (req, res, next) {
     //Check Auth
-    var authStatus = securityObj.checkSecurity(req.query.api_key,function(result)
+    var authStatus = securityObj.checkSecurity(req.token,function(result)
     {
         if (result==="567" || result.includes("@"))
         {

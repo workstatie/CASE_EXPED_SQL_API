@@ -15,7 +15,7 @@ const tableName = '[Solution]'
 //Get All Solution
 router.get('/GetSolutions', function (req, res, next) {
       //Check Auth
-      var authStatus = securityObj.checkSecurity(req.query.api_key,function(result)
+      var authStatus = securityObj.checkSecurity(req.token,function(result)
       {
           if (result==="567" || result.includes("@"))
           {
@@ -48,7 +48,7 @@ router.get('/GetSolutions', function (req, res, next) {
 //Get Solution by ID
 router.get('/GetSolutionByID', function (req, res, next) {
       //Check Auth
-      var authStatus = securityObj.checkSecurity(req.query.api_key,function(result)
+      var authStatus = securityObj.checkSecurity(req.token,function(result)
       {
           if (result==="567" || result.includes("@"))
           {
@@ -86,7 +86,7 @@ router.get('/GetSolutionByID', function (req, res, next) {
 //Get Solution by ID
 router.get('/GetSolutionForRequestID', function (req, res, next) {
       //Check Auth
-      var authStatus = securityObj.checkSecurity(req.query.api_key,function(result)
+      var authStatus = securityObj.checkSecurity(req.token,function(result)
       {
           if (result==="567" || result.includes("@"))
           {
@@ -124,7 +124,7 @@ router.get('/GetSolutionForRequestID', function (req, res, next) {
 //Get Solution by ID
 router.get('/GetConfirmedSolutionForRequestID', function (req, res, next) {
       //Check Auth
-      var authStatus = securityObj.checkSecurity(req.query.api_key,function(result)
+      var authStatus = securityObj.checkSecurity(req.token,function(result)
       {
           if (result==="567" || result.includes("@"))
           {
@@ -164,7 +164,7 @@ router.get('/GetConfirmedSolutionForRequestID', function (req, res, next) {
 router.post('/AddSolution', function (req, res) {
       //Check Auth
     
-      var authStatus = securityObj.checkSecurity(req.query.api_key,function(result)
+      var authStatus = securityObj.checkSecurity(req.token,function(result)
       {
           if (result==="567" || result.includes("@"))
           {
@@ -220,7 +220,7 @@ router.post('/AddSolution', function (req, res) {
 //Update Solution by ID
 router.patch('/UpdateSolution', function (req, res) {
       //Check Auth
-      var authStatus = securityObj.checkSecurity(req.query.api_key,function(result)
+      var authStatus = securityObj.checkSecurity(req.token,function(result)
       {
           if (result==="567" || result.includes("@"))
           {
