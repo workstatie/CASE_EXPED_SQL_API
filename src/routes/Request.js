@@ -138,10 +138,8 @@ router.get('/GetRequestsByStatusId', function (req, res, next) {
 
 
 
-//Get Request by ID
 router.get('/GetAllRequests', function (req, res, next) {
       //Check Auth
-      //console.log('aici')
 
       var authStatus = securityObj.checkSecurity(req.token,function(result)
       {
@@ -176,7 +174,7 @@ router.get('/GetAllRequests', function (req, res, next) {
 });
 
 
-//Get Request by ID
+//Get Current Requests
 router.get('/GetActiveRequests', function (req, res, next) {
     //Check Auth
     //console.log('aici')
@@ -194,6 +192,47 @@ router.get('/GetActiveRequests', function (req, res, next) {
               var request = new sql.Request();
               
               queryActive= 'Select * from Request where load_datetime >= GETDATE() and request_status_type_id =2'
+
+              request.query(queryActive, function (err, recordset) {
+                  if (err) {
+                      console.log(err)
+                  }
+                  //    / res.send(JSON.stringify(recordset));
+                  res.send(recordset);
+              });
+          });
+        }
+        else 
+        {
+            //key not good
+            res.status(401);
+            res.send("authentication failed!");
+            console.log ("authentication failed GetAllRequests");
+        }
+        
+    });
+  
+});
+
+
+//Get Active Request by User
+router.get('/GetActiveRequestsByUser', function (req, res, next) {
+    //Check Auth
+    //console.log('aici')
+
+    var authStatus = securityObj.checkSecurity(req.token,function(result)
+    {
+        console.log(result)
+        if (result==="567" || result.includes("@"))
+        {
+            //key is good
+            sql.connect(dbconfig, function (err) {
+              if (err) {
+                  console.log(err);
+              }
+              var request = new sql.Request();
+              
+              queryActive= 'Select * from Request where load_datetime >= GETDATE() and request_status_type_id =2 and assigned_user_id=' + req.query.user_id
 
               request.query(queryActive, function (err, recordset) {
                   if (err) {

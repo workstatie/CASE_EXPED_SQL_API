@@ -45,6 +45,38 @@ router.get('/GetSolutions', function (req, res, next) {
     
 });
 
+
+//Get All Solution
+router.get('/GetConfirmedSolutions', function (req, res, next) {
+    //Check Auth
+    var authStatus = securityObj.checkSecurity(req.token,function(result)
+    {
+        if (result==="567" || result.includes("@"))
+        {
+            //key is good
+            sql.connect(dbconfig, function (err) {
+              if (err) {
+                  console.log(err);
+              }
+              var request = new sql.Request();
+              request.query('select * from ' + tableName + ' where solution_status = 2', function (err, recordset) {
+                  if (err) {
+                      console.log(err)
+                  }
+                  res.send(recordset);
+              });
+          });
+        }
+        else 
+        {
+            //key not good
+            res.status(401);
+            res.send("authentication failed!");
+            console.log ("authentication failed GetSolutions");
+        } 
+    });
+});
+
 //Get Solution by ID
 router.get('/GetSolutionByID', function (req, res, next) {
       //Check Auth
@@ -86,6 +118,7 @@ router.get('/GetSolutionByID', function (req, res, next) {
 //Get Solution by ID
 router.get('/GetSolutionForRequestID', function (req, res, next) {
       //Check Auth
+      console.log('t')
       var authStatus = securityObj.checkSecurity(req.token,function(result)
       {
           if (result==="567" || result.includes("@"))
@@ -97,9 +130,10 @@ router.get('/GetSolutionForRequestID', function (req, res, next) {
                 }
                 var request = new sql.Request();
         
-                let query ="select s.*, cr.[email] as [carrier_email] \
+                let query ="select s.*, cr.[email] as [carrier_email], sl.[status] as [solution_status_name] \
                 from [Solution] as s \
                 left join [Carrier] as cr on s.carrier_id = cr.id \
+                left join [Solution_Status] as sl on s.solution_status = sl.id \
                 where s.request_id = "
                 request.query(query + req.query.request_id, function (err, recordset) {
                     if (err) {
