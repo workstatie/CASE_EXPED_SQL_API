@@ -11,6 +11,8 @@ var dbconfig = {
 
 const tableName = '[Customer]'
 
+//Customers are the ones from the request
+
 //Get All Customer
 router.get('/GetAllCustomers', function (req, res, next) {
       //Check Auth

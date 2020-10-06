@@ -17,6 +17,9 @@ app.use(bodyParser.urlencoded({ extended: true }));
 const request = require('./src/routes/Request');
 app.use('/api/', request);
 
+const charts = require('./src/routes/Charts');
+app.use('/api/', charts);
+
 const solution = require('./src/routes/Solution');
 app.use('/api/', solution);
 
@@ -40,6 +43,10 @@ app.use('/api/', customer);
 
 const countries = require('./src/routes/Countries');
 app.use('/api/', countries);
+
+
+const client = require('./src/routes/Client');
+app.use('/api/', client);
 
 
 //ROBOT 

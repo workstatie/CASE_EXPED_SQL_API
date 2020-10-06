@@ -176,8 +176,7 @@ router.get('/GetAllRequests', function (req, res, next) {
 
 //Get Current Requests
 router.get('/GetActiveRequests', function (req, res, next) {
-    //Check Auth
-    //console.log('aici')
+
 
     var authStatus = securityObj.checkSecurity(req.token,function(result)
     {
@@ -250,9 +249,7 @@ router.get('/GetActiveRequestsByUser', function (req, res, next) {
             res.send("authentication failed!");
             console.log ("authentication failed GetAllRequests");
         }
-        
     });
-  
 });
 
 
@@ -327,9 +324,9 @@ router.get('/GetRequestByTransporeonID', function (req, res, next) {
     
 });
 
+
 router.get('/GetRequestByCountry', function (req, res, next) {
       //Check Auth
-      
       var authStatus = securityObj.checkSecurity(req.token,function(result)
       {
           if (result==="567" || result.includes("@"))
@@ -367,6 +364,94 @@ router.get('/GetRequestByCountry', function (req, res, next) {
     
 });
 
+
+
+router.get('/GetActiveRequestByClientId', function (req, res, next) {
+    //Check Auth
+    var authStatus = securityObj.checkSecurity(req.token,function(result)
+    {
+        if (result==="567" || result.includes("@"))
+        {
+            //key is good
+            sql.connect(dbconfig, function (err) {
+              if (err) {
+                  console.log(err);
+              }
+              var request = new sql.Request();
+              request.query('select r.*, rst.[name] as [status_name], rs.[name] as [source_name], u.[email] as [created_by] \
+              from [Request] as r  \
+              left join [Request_Status_Type] as rst on r.request_status_type_id = rst.id \
+              left join [Request_Sources] as rs on r.request_source_id = rs.id \
+              left join [User] as u on r.assigned_user_id = u.id \
+              where assigned_user_id in (select user_id from Client_Users where client_id = '+req.query.client_id +')  \
+              and rst.id NOT IN (9, 7) and r.load_datetime >= GETDATE() ORDER BY r.load_datetime ASC', function (err, recordset){
+                  if (err) {
+                      console.log(err)
+                  }
+                  //    / res.send(JSON.stringify(recordset));
+                  res.send(recordset);
+              });
+          });
+        }
+        else 
+        {
+            //key not good
+            res.status(401);
+            res.send("authentication failed!");
+            console.log(req)
+            console.log ("authentication failed GetRequestByCountry");
+        }
+        
+    });
+  
+});
+
+
+
+
+router.get('/GetActiveRequestsByUserID', function (req, res, next) {
+    //Check Auth
+    var authStatus = securityObj.checkSecurity(req.token,function(result)
+    {
+        if (result==="567" || result.includes("@"))
+        {
+            //key is good
+            sql.connect(dbconfig, function (err) {
+              if (err) {
+                  console.log(err);
+              }
+              var request = new sql.Request();
+              var q="select r.*, rst.[name] as [status_name], rs.[name] as [source_name] \
+              from [Request] as r  \
+              left join [Request_Status_Type] as rst on r.request_status_type_id = rst.id \
+              left join [Request_Sources] as rs on r.request_source_id = rs.id \
+              where assigned_user_id='"+req.query.user_id +"' \
+              and rst.id NOT IN (9, 7) and r.load_datetime >= GETDATE() ORDER BY r.load_datetime ASC";
+
+              request.query(q, function (err, recordset){
+                  if (err) {
+                      console.log(err)
+                  }
+                  //    / res.send(JSON.stringify(recordset));
+                  res.send(recordset);
+              });
+          });
+        }
+        else 
+        {
+            //key not good
+            res.status(401);
+            res.send("authentication failed!");
+            console.log(req)
+            console.log ("authentication failed GetRequestByCountry");
+        }
+        
+    });
+  
+});
+
+
+
 //Get Request by ID
 router.get('/GetRequestDetails', function (req, res, next) {
       //Check Auth
@@ -380,7 +465,12 @@ router.get('/GetRequestDetails', function (req, res, next) {
                     console.log(err);
                 }
                 var request = new sql.Request();
-                request.query('select * from ' + tableName + ' where id=' + req.query.id, function (err, recordset) {
+                var query = "select r.*, rst.[name] as [status_name]\
+                from [Request] as r  \
+                left join [Request_Status_Type] as rst on r.request_status_type_id = rst.id \
+                where r.id='"+ req.query.id +"'";
+
+                request.query(query, function (err, recordset) {
                     if (err) {
                         console.log(err)
                     }

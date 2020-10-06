@@ -118,7 +118,7 @@ router.get('/GetSolutionByID', function (req, res, next) {
 //Get Solution by ID
 router.get('/GetSolutionForRequestID', function (req, res, next) {
       //Check Auth
-      console.log('t')
+
       var authStatus = securityObj.checkSecurity(req.token,function(result)
       {
           if (result==="567" || result.includes("@"))

@@ -46,6 +46,40 @@ router.get('/GetAllCarriers', function (req, res, next) {
     });       
 });
 
+
+
+//Get All Carriers
+router.get('/GetCarrierById', function (req, res, next) {
+    //Check Auth
+    var authStatus = securityObj.checkSecurity(req.token,function(result)
+    {
+        if (result==="567" || result.includes("@"))
+        {
+            //key is good
+            sql.connect(dbconfig, function (err) {
+                if (err) {
+                    console.log(err);
+                }
+                var request = new sql.Request();
+                request.query('select * from ' + tableName + " WHERE ID = " + req.query.carrier_id, function (err, recordset) {
+                    if (err) {
+                        console.log(err)
+                    }
+                    res.send(recordset);
+                });
+            });
+        }
+        else 
+        {
+            //key not good
+            res.status(401);
+            res.send("authentication failed!");
+            console.log ("authentication failed");
+        }
+        
+    });       
+});
+
 //Add a new carrier
 router.post('/AddCarrier', function (req, res) {
     //Check Auth
