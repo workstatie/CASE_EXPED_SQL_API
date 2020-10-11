@@ -204,14 +204,14 @@ router.post('/AddSolution', function (req, res) {
           {
               //key is good
               const request = req.body;
+              console.log(req.body)
 
               sql.connect(dbconfig, function (err) {
                   if (err) {
                       console.log(err);
                   }
-          
                   let sqlQueryPost = "INSERT INTO " + tableName + " ("
-          
+                  
                   for (var i = 0; i < Object.keys(req.body).length; i++) {
                       sqlQueryPost = sqlQueryPost + Object.keys(req.body)[i] + ",";
                   }
@@ -279,7 +279,7 @@ router.patch('/UpdateSolution', function (req, res) {
                         console.log(err)
                     } else {
                         res.status(200)
-                        res.send('updated')
+                        res.send(recordset)
                     }
                 });
             });
