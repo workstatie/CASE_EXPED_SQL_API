@@ -189,8 +189,11 @@ router.get('/GetActiveRequests', function (req, res, next) {
                   console.log(err);
               }
               var request = new sql.Request();
-              
-              queryActive= 'Select * from Request where load_datetime >= GETDATE() and request_status_type_id =2'
+
+              queryActive= 'select r.*, tt.[name] as [truck_type_name]\
+              from [Request] as r  \
+              left join [Truck_Type] as tt on r.truck_type_id = tt.id \
+              where load_datetime >= GETDATE() and request_status_type_id =2';
 
               request.query(queryActive, function (err, recordset) {
                   if (err) {
@@ -621,7 +624,7 @@ router.patch('/UpdateRequest', function (req, res) {
                         console.log(err)
                     } else {
                         res.status(200)
-                        res.send('updated')
+                        res.send(recordset)
                     }
                 });
             });
