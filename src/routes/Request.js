@@ -423,9 +423,10 @@ router.get('/GetAvailableSolutions', function (req, res, next) {
                   console.log(err);
               }
               var request = new sql.Request();
-              request.query("select r.*, s.[id] as [solution_id], s.[price] as [solution_price], s.[details] as [solution_details]\
+              request.query("select r.*, s.[id] as [solution_id], s.[price] as [solution_price], s.[details] as [solution_details], cust.[email] as [customer_email]\
               from [Request] as r  \
               left join [Solution] as s on r.id = s.request_id \
+              left join [Customer_Contact] as cust on r.customer_contact_id = cust.id \
               where r.request_status_type_id ='5' and s.solution_status ='3' \
               and r.load_datetime >= GETDATE() ORDER BY r.load_datetime ASC", function (err, recordset){
                   if (err) {
