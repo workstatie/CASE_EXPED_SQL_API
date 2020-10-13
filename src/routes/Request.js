@@ -213,7 +213,46 @@ router.get('/GetActiveRequests', function (req, res, next) {
         }
         
     });
-  
+});
+
+
+router.get('/GetActiveRequestsByReqStatus', function (req, res, next) {
+
+    var authStatus = securityObj.checkSecurity(req.token,function(result)
+    {
+        console.log(result)
+        if (result==="567" || result.includes("@"))
+        {
+            //key is good
+            sql.connect(dbconfig, function (err) {
+              if (err) {
+                  console.log(err);
+              }
+              var request = new sql.Request();
+
+              queryActive= 'select r.*, tt.[name] as [truck_type_name]\
+              from [Request] as r  \
+              left join [Truck_Type] as tt on r.truck_type_id = tt.id \
+              where load_datetime >= GETDATE() and request_status_type_id ='+ req.query.request_status_type_id;
+
+              request.query(queryActive, function (err, recordset) {
+                  if (err) {
+                      console.log(err)
+                  }
+                  //    / res.send(JSON.stringify(recordset));
+                  res.send(recordset);
+              });
+          });
+        }
+        else 
+        {
+            //key not good
+            res.status(401);
+            res.send("authentication failed!");
+            console.log ("authentication failed");
+        }
+        
+    });
 });
 
 
@@ -411,45 +450,6 @@ router.get('/GetActiveRequestByClientId', function (req, res, next) {
 
 
 
-router.get('/GetAvailableSolutions', function (req, res, next) {
-    //Check Auth
-    var authStatus = securityObj.checkSecurity(req.token,function(result)
-    {
-        if (result==="567" || result.includes("@"))
-        {
-            //key is good
-            sql.connect(dbconfig, function (err) {
-              if (err) {
-                  console.log(err);
-              }
-              var request = new sql.Request();
-              request.query("select r.*, s.[id] as [solution_id], s.[price] as [solution_price], s.[details] as [solution_details], cust.[email] as [customer_email]\
-              from [Request] as r  \
-              left join [Solution] as s on r.id = s.request_id \
-              left join [Customer_Contact] as cust on r.customer_contact_id = cust.id \
-              where r.request_status_type_id ='5' and s.solution_status ='3' \
-              and r.load_datetime >= GETDATE() ORDER BY r.load_datetime ASC", function (err, recordset){
-                  if (err) {
-                      console.log(err)
-                  }
-                  //    / res.send(JSON.stringify(recordset));
-                  res.status(200)
-                  res.send(recordset);
-              });
-          });
-        }
-        else 
-        {
-            //key not good
-            res.status(401);
-            res.send("authentication failed!");
-            console.log(req)
-            console.log ("authentication failed GetRequestByCountry");
-        }
-        
-    });
-  
-});
 
 
 
