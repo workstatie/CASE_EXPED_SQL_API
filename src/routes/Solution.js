@@ -266,7 +266,15 @@ router.patch('/UpdateSolution', function (req, res) {
                 let sqlQueryPatch = "UPDATE [Solution] SET "
         
                 for (var i = 0; i < Object.keys(req.body).length; i++) {
-                    sqlQueryPatch = sqlQueryPatch + Object.keys(req.body)[i] + " = '" + Object.values(req.body)[i] + "',"
+                    sqlQueryPatch = sqlQueryPatch + Object.keys(req.body)[i] + " = " 
+                    if(Object.values(req.body)[i])
+                    {
+                        sqlQueryPatch = sqlQueryPatch + "'" +Object.values(req.body)[i] + "',"
+
+                    }else{
+                        sqlQueryPatch = sqlQueryPatch + Object.values(req.body)[i] + ","
+
+                    }
                 }
                 sqlQueryPatch = sqlQueryPatch.slice(0, sqlQueryPatch.length - 1) + " WHERE ID = " + req.query.id;
                 console.log(sqlQueryPatch)
@@ -376,10 +384,13 @@ router.get('/GetAvailableSolutionsByStatus', function (req, res, next) {
             console.log(req)
             console.log ("authentication failed GetRequestByCountry");
         }
-        
     });
-  
 });
+
+
+
+
+
 
 
 module.exports = router;
