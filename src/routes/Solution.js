@@ -364,10 +364,12 @@ router.get('/GetAvailableSolutionsByStatus', function (req, res, next) {
               request.query("select r.*,\
               s.[id] as [solution_id], s.[solution_status] as [solution_status], s.[email_response] as [email_response_carrier], s.[email_client_response] as [email_client_response],\
               s.[price] as [price_for_client], s.[details] as [solution_details], \
-              cust.[email] as [customer_email]\
+              cust.[email] as [customer_email],\
+              carrier.[email] as [carrier_email]\
               from [Request] as r  \
               left join [Solution] as s on r.id = s.request_id \
               left join [Customer_Contact] as cust on r.customer_contact_id = cust.id \
+              left join [Carrier] as carrier on s.carrier_id = carrier.id \
               where s.solution_status ='"+req.query.status_id + "' \
               and r.load_datetime >= GETDATE() ORDER BY r.load_datetime ASC", function (err, recordset){
                   if (err) {
