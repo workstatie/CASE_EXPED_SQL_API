@@ -365,7 +365,7 @@ router.get('/GetAvailableSolutionsByStatus', function (req, res, next) {
               from [Request] as r  \
               left join [Solution] as s on r.id = s.request_id \
               left join [Customer_Contact] as cust on r.customer_contact_id = cust.id \
-              where r.request_status_type_id ='5' and s.solution_status ='"+req.query.status_id + "' \
+              where s.solution_status ='"+req.query.status_id + "' \
               and r.load_datetime >= GETDATE() ORDER BY r.load_datetime ASC", function (err, recordset){
                   if (err) {
                       console.log(err)
