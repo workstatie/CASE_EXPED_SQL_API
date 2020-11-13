@@ -361,7 +361,7 @@ router.get('/GetAvailableSolutionsByStatus', function (req, res, next) {
                   console.log(err);
               }
               var request = new sql.Request();
-              request.query("select r.*, s.[id] as [solution_id], s.[price] as [price_for_client], s.[details] as [solution_details], cust.[email] as [customer_email]\
+              request.query("select r.*, s.*, cust.[email] as [customer_email]\
               from [Request] as r  \
               left join [Solution] as s on r.id = s.request_id \
               left join [Customer_Contact] as cust on r.customer_contact_id = cust.id \
