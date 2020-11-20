@@ -612,7 +612,7 @@ router.put('/UpdateRequest', function (req, res) {
 
                     if(Object.values(req.body)[i].length>0)
                     {
-                        sqlQueryPatch = sqlQueryPatch + Object.keys(req.body)[i] +" = '" +Object.values(req.body)[i] + "',"
+                        sqlQueryPut = sqlQueryPut + Object.keys(req.body)[i] +" = '" +Object.values(req.body)[i] + "',"
 
                     }
                 }

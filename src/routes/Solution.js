@@ -204,8 +204,6 @@ router.post('/AddSolution', function (req, res) {
           {
               //key is good
               const request = req.body;
-              console.log(req.body)
-
               sql.connect(dbconfig, function (err) {
                   if (err) {
                       console.log(err);
@@ -221,7 +219,6 @@ router.post('/AddSolution', function (req, res) {
                       sqlQueryPost = sqlQueryPost + Object.values(req.body)[i] + "','"
                   }
                   sqlQueryPost = sqlQueryPost.slice(0, sqlQueryPost.length - 2) + ", GETDATE(), GETDATE()) SELECT SCOPE_IDENTITY() as id";
-                  console.log(sqlQueryPost)
           
                   var sqlRequest = new sql.Request();
           
@@ -263,7 +260,7 @@ router.patch('/UpdateSolution', function (req, res) {
                 if (err) {
                     console.log(err);
                 }
-                console.log(req.body)
+
                 let sqlQueryPatch = "UPDATE [Solution] SET "
         
                 for (var i = 0; i < Object.keys(req.body).length; i++) {
@@ -275,7 +272,6 @@ router.patch('/UpdateSolution', function (req, res) {
                     }
                 }
                 sqlQueryPatch = sqlQueryPatch.slice(0, sqlQueryPatch.length - 1) + " WHERE ID = " + req.query.id;
-                console.log(sqlQueryPatch)
                 var sqlRequest = new sql.Request();
         
                 sqlRequest.query(sqlQueryPatch, function (err, recordset) {
@@ -337,7 +333,6 @@ router.get('/GetAvailableSolutions', function (req, res, next) {
             //key not good
             res.status(401);
             res.send("authentication failed!");
-            console.log(req)
             console.log ("authentication failed GetRequestByCountry");
         }
         
@@ -384,7 +379,6 @@ router.get('/GetAvailableSolutionsByStatus', function (req, res, next) {
             //key not good
             res.status(401);
             res.send("authentication failed!");
-            console.log(req)
             console.log ("authentication failed GetRequestByCountry");
         }
     });
