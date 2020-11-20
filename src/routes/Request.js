@@ -143,7 +143,6 @@ router.get('/GetAllRequests', function (req, res, next) {
 
       var authStatus = securityObj.checkSecurity(req.token,function(result)
       {
-          console.log(result)
           if (result==="567" || result.includes("@"))
           {
               //key is good
@@ -180,7 +179,6 @@ router.get('/GetActiveRequests', function (req, res, next) {
 
     var authStatus = securityObj.checkSecurity(req.token,function(result)
     {
-        console.log(result)
         if (result==="567" || result.includes("@"))
         {
             //key is good
@@ -220,7 +218,6 @@ router.get('/GetActiveRequestsByReqStatus', function (req, res, next) {
 
     var authStatus = securityObj.checkSecurity(req.token,function(result)
     {
-        console.log(result)
         if (result==="567" || result.includes("@"))
         {
             //key is good
@@ -259,11 +256,9 @@ router.get('/GetActiveRequestsByReqStatus', function (req, res, next) {
 //Get Active Request by User
 router.get('/GetActiveRequestsByUser', function (req, res, next) {
     //Check Auth
-    //console.log('aici')
 
     var authStatus = securityObj.checkSecurity(req.token,function(result)
     {
-        console.log(result)
         if (result==="567" || result.includes("@"))
         {
             //key is good
@@ -398,7 +393,6 @@ router.get('/GetRequestByCountry', function (req, res, next) {
               //key not good
               res.status(401);
               res.send("authentication failed!");
-              console.log(req)
               console.log ("authentication failed GetRequestByCountry");
           }
           
@@ -440,7 +434,6 @@ router.get('/GetActiveRequestByClientId', function (req, res, next) {
             //key not good
             res.status(401);
             res.send("authentication failed!");
-            console.log(req)
             console.log ("authentication failed GetRequestByCountry");
         }
         
@@ -488,7 +481,6 @@ router.get('/GetActiveRequestsByUserID', function (req, res, next) {
             //key not good
             res.status(401);
             res.send("authentication failed!");
-            console.log(req)
             console.log ("authentication failed GetRequestByCountry");
         }
         
@@ -530,7 +522,6 @@ router.get('/GetRequestDetails', function (req, res, next) {
               //key not good
               res.status(401);
               res.send("authentication failed!");
-              console.log(req)
               console.log ("authentication failed GetRequestDetails");
           }
           
@@ -565,10 +556,8 @@ router.post('/NewRequest', function (req, res) {
             sqlQueryPost = sqlQueryPost + Object.values(req.body)[i] + "','"
         }
         sqlQueryPost = sqlQueryPost.slice(0, sqlQueryPost.length - 2) + ", GETDATE(), GETDATE()) SELECT SCOPE_IDENTITY() as id";
-        console.log(sqlQueryPost)
 
         var sqlRequest = new sql.Request();
-        console.log(sqlQueryPost);
 
         sqlRequest.query(sqlQueryPost, function (err, recordset) {
             if (err) {
@@ -617,7 +606,6 @@ router.put('/UpdateRequest', function (req, res) {
                     }
                 }
                 sqlQueryPut = sqlQueryPut.slice(0, sqlQueryPut.length - 1) + " WHERE ID = " + req.query.id;
-                console.log(sqlQueryPut)
                 var sqlRequest = new sql.Request();
         
                 sqlRequest.query(sqlQueryPut, function (err, recordset) {

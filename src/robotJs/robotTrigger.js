@@ -14,8 +14,6 @@ var dbconfig = {
 router.post('/StartRobot', function (req, res, next) {
   var execFile = require('child_process').execFile, child;
   var args = '';
-  console.log(req.query)
-  console.log(args)
   if (req.body) {
     args = JSON.stringify(req.body);
   }
@@ -113,7 +111,6 @@ router.post('/AddNewJobs', function (req, res) {
           sqlQueryPost = sqlQueryPost + Object.values(req.body)[i] + "','"
       }
       sqlQueryPost = sqlQueryPost.slice(0, sqlQueryPost.length - 2) + " ) SELECT SCOPE_IDENTITY() as id";
-      console.log(sqlQueryPost)
 
       var sqlRequest = new sql.Request();
 

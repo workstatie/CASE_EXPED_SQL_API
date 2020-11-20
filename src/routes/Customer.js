@@ -102,7 +102,6 @@ router.get('/GetCustomerByName', function (req, res, next) {
         
                 const sqlQuery="select * from " + tableName + " WHERE name = '" + req.query.name +"'"
 
-                console.log(sqlQuery)
                 request.query(sqlQuery, function (err, recordset) {
                     if (err) {
                         console.log(err)

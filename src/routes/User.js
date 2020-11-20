@@ -102,7 +102,6 @@ router.post('/AddUser', function (req, res) {
                 if (err) {
                     console.log(err);
                 }
-                console.log(req.body)
                 let sqlQueryPostNewUser = "INSERT INTO [User] (username, email, phone, firstname, lastname, datetime_created, datetime_modified) OUTPUT SCOPE_IDENTITY() \
                 VALUES ('" + req.body.email + "','" + req.body.email + "','" + req.body.phone + "',\
                  '"+ req.body.firstname + "','" + req.body.lastname + "', GETDATE(), GETDATE()) SELECT SCOPE_IDENTITY() as id";
@@ -120,7 +119,6 @@ router.post('/AddUser', function (req, res) {
                         let sqlQueryAddRole = " INSERT INTO [USER_ROLES] (user_id, role_id) VALUES ('" + userId + "','" +  req.body.role_id + "')";
 
                         console.log('===============')
-                        console.log(sqlQueryAddRole)
                         sqlRequest.query(sqlQueryAddRole, function (err, recordset) {
                             if (err) {
                                 res.status(400)
@@ -184,7 +182,6 @@ router.patch('/UpdateUser', function (req, res) {
                   sqlQueryPatch = sqlQueryPatch + Object.keys(req.body)[i] + " = '" + Object.values(req.body)[i] + "',"
               }
               sqlQueryPatch = sqlQueryPatch.slice(0, sqlQueryPatch.length - 1) + " WHERE ID = " + req.query.id;
-              console.log(sqlQueryPatch)
               var sqlRequest = new sql.Request();
       
               sqlRequest.query(sqlQueryPatch, function (err, recordset) {
@@ -221,7 +218,6 @@ router.post('/AddLog', function (req, res) {
         {
             //key is good
             const request = req.body;
-            console.log(request)
             sql.connect(dbconfig, function (err) {
                 if (err) {
                     console.log(err);
