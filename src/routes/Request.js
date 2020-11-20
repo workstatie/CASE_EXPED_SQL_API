@@ -609,7 +609,7 @@ router.put('/UpdateRequest', function (req, res) {
                 let sqlQueryPut = "UPDATE [Request] SET "
         
                 for (var i = 0; i < Object.keys(req.body).length; i++) {
-                    if(Object.values(req.body)[i]){
+                    if(Object.values(req.body)[i].length>0){
                         sqlQueryPut = sqlQueryPut + Object.keys(req.body)[i] + " = '" + Object.values(req.body)[i] + "',"
                     }
                 }
