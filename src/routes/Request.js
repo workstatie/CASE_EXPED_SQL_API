@@ -609,8 +609,11 @@ router.put('/UpdateRequest', function (req, res) {
                 let sqlQueryPut = "UPDATE [Request] SET "
         
                 for (var i = 0; i < Object.keys(req.body).length; i++) {
-                    if(Object.values(req.body)[i].length>0){
-                        sqlQueryPut = sqlQueryPut + Object.keys(req.body)[i] + " = '" + Object.values(req.body)[i] + "',"
+
+                    if(Object.values(req.body)[i].length>0)
+                    {
+                        sqlQueryPatch = sqlQueryPatch + Object.keys(req.body)[i] +" = '" +Object.values(req.body)[i] + "',"
+
                     }
                 }
                 sqlQueryPut = sqlQueryPut.slice(0, sqlQueryPut.length - 1) + " WHERE ID = " + req.query.id;

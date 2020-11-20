@@ -263,16 +263,14 @@ router.patch('/UpdateSolution', function (req, res) {
                 if (err) {
                     console.log(err);
                 }
+                console.log(req.body)
                 let sqlQueryPatch = "UPDATE [Solution] SET "
         
                 for (var i = 0; i < Object.keys(req.body).length; i++) {
-                    sqlQueryPatch = sqlQueryPatch + Object.keys(req.body)[i] + " = " 
-                    if(Object.values(req.body)[i])
-                    {
-                        sqlQueryPatch = sqlQueryPatch + "'" +Object.values(req.body)[i] + "',"
 
-                    }else{
-                        sqlQueryPatch = sqlQueryPatch + Object.values(req.body)[i] + ","
+                    if(Object.values(req.body)[i].length>0)
+                    {
+                        sqlQueryPatch = sqlQueryPatch + Object.keys(req.body)[i] +" = '" +Object.values(req.body)[i] + "',"
 
                     }
                 }
