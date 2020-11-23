@@ -264,7 +264,7 @@ router.patch('/UpdateSolution', function (req, res) {
                 let sqlQueryPatch = "UPDATE [Solution] SET "
         
                 for (var i = 0; i < Object.keys(req.body).length; i++) {
-
+                    console.log(req.body)
                     if(Object.values(req.body)[i].length>0)
                     {
                         sqlQueryPatch = sqlQueryPatch + Object.keys(req.body)[i] +" = '" +Object.values(req.body)[i] + "',"
@@ -272,6 +272,8 @@ router.patch('/UpdateSolution', function (req, res) {
                     }
                 }
                 sqlQueryPatch = sqlQueryPatch.slice(0, sqlQueryPatch.length - 1) + " WHERE ID = " + req.query.id;
+
+                console.log(sqlQueryPatch)
                 var sqlRequest = new sql.Request();
         
                 sqlRequest.query(sqlQueryPatch, function (err, recordset) {
