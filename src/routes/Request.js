@@ -599,7 +599,7 @@ router.put('/UpdateRequest', function (req, res) {
         
                 for (var i = 0; i < Object.keys(req.body).length; i++) {
 
-                    if(Object.values(req.body)[i].length>0)
+                    if((Object.values(req.body)[i]).toString().length>0)
                     {
                         sqlQueryPut = sqlQueryPut + Object.keys(req.body)[i] +" = '" +Object.values(req.body)[i] + "',"
 
