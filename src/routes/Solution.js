@@ -264,14 +264,9 @@ router.patch('/UpdateSolution', function (req, res) {
                 let sqlQueryPatch = "UPDATE [Solution] SET "
         
                 for (var i = 0; i < Object.keys(req.body).length; i++) {
-                    console.log(Object.keys(req.body)[i])
-
-                    console.log(Object.values(req.body)[i])
-                    console.log((Object.values(req.body)[i]).toString().length)
                     if((Object.values(req.body)[i]).toString().length>0)
                     {
 
-                        console.log("aaaaiiciiii ==============")
                         sqlQueryPatch = sqlQueryPatch + Object.keys(req.body)[i] +" = '" +Object.values(req.body)[i] + "',"
 
                     }
@@ -363,7 +358,7 @@ router.get('/GetAvailableSolutionsByStatus', function (req, res, next) {
               var request = new sql.Request();
               request.query("select r.*,\
               s.[id] as [solution_id], s.[solution_status] as [solution_status], s.[email_response] as [email_response_carrier], s.[email_client_response] as [email_client_response],\
-              s.[price] as [price_for_client], s.[details] as [solution_details], \
+              s.[price_for_client] as [price_for_client], s.[details] as [solution_details], \
               cust.[email] as [customer_email],\
               carrier.[email] as [carrier_email]\
               from [Request] as r  \
