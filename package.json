@@ -9,7 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@okta/oidc-middleware": "^4.0.1",
+    "@okta/oidc-middleware": "^5.0.0",
     "@okta/okta-angular": "^2.0.0",
     "child-process": "^1.0.2",
     "dotenv": "^8.2.0",
